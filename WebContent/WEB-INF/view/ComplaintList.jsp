@@ -28,30 +28,17 @@
 	<div class="panel-group">
 		<div class="panel panel-default">
 			<div class="panel-heading" id="title">
-				신고사항입력
+				신고리스트
 			</div>
 			<div class="panel-body">
-				<form id="complaintForm" role="form" action="complaintinsert.action" method="post">
-					<div class="form-group">
-						<label for="reason_id">
-							신고사유
-						</label>
-						<select name="reason_id" id="reason_id" class="form-control">
-							 <c:forEach var="item" items="${reasonList }">
-							 <option value="${item.id }">${item.contents }</option>
-							 </c:forEach>
-						</select>
-					</div>
-		
-					<div class="form-group">
-						<label for="contents">
-							신고내용 
-						</label>
-						<textarea name="contents" id="contents" cols="30" rows="10" class="form-control"></textarea>
-					</div>
+				<table class="table">
+					<tr>
+						
 					
-					<button id="sumitBtn" type="button" class="btn btn-success btn-sm">SUBMIT</button>
-				</form>
+					</tr>
+				
+				
+				</table>
 			</div>
 		</div>
 	</div>
