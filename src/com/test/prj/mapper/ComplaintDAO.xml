@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.prj.IComplaintDAO">
+
+	<select id="reasonList" resultType="com.test.prj.CPReasonDTO">
+		SELECT ID, CONTENTS
+		FROM CP_REASON
+		ORDER BY ID
+	</select>
+	
+	<!-- 테스트 중 -->
+	<insert id="complaintInsert">
+		INSERT INTO COMPLAINT(ID, COMPLAINTER_USER_ID, REASON_ID, CONTENTS, COMPLAINT_DATE)
+		VALUES('CP01', #{complainter_user_id}, #{reason_id}, #{contents}, SYSDATE)
+	</insert>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.prj.IMomentDAO">
+
+	<select id="list" resultType="com.test.prj.MomentDTO">
+		SELECT MOMENT_ID, GROUP_ID, GROUP_NAME, MOMENT_NAME
+         , PHASE, DATE_NAME, PLACE_NAME
+         , PARTI_NUM, MIN_PARTICIPANT, MAX_PARTICIPANT
+         , CREATION_DATE, PLAN_END_DATE
+		FROM MMVIEW
+		WHERE GROUP_ID = #{group_id}
+		ORDER BY PLAN_END_DATE
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MOMENT
+		WHERE GROUP_ID = #{group_id}
+	</select>
+	
+	<select id="countMember" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM GR_MATCH
+		WHERE GROUP_ID = #{group_id}
+	</select>
+	
+	<select id="countDate" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_DATE
+	</select>
+	
+	<insert id="addDate">
+		INSERT INTO MM_DATE(ID, YEAR, MONTH, DAY, TIME)
+		VALUES(#{date_id}, #{year}, #{month}, #{day}, #{time})
+	</insert>
+	
+	<select id="countPlace" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_PLACE
+	</select>
+	
+	<insert id="addPlace">
+		INSERT INTO MM_PLACE(ID, NAME, DETAIL_ID)
+		VALUES(#{place_id}, #{place_name}, #{detail_id})
+	</insert>
+	
+	<insert id="addMoment">
+		INSERT INTO MOMENT(ID, GROUP_ID, PHASE_ID, DATE_ID, PLACE_ID
+				 , CREATION_DATE, NAME
+                 , MIN_PARTICIPANT, MAX_PARTICIPANT, NOTE)
+		VALUES('MM0' || MOMENTSEQ.NEXTVAL, #{group_id}, #{phase_id}, #{date_id}, #{place_id}
+			 , SYSDATE, #{moment_name}, #{min_participant}, #{max_participant}, #{note})
+	</insert>
+	
+
+</mapper>
