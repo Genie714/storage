@@ -100,7 +100,7 @@ String user_id = (String) session.getAttribute("user_id");
 						</div>
 					</div>
 					<div class="col-lg-6 order-1 order-lg-2 hero-img"
-						data-aos="zoom-out" data-aos-delay="200">
+						data-aos="zoom-out" data-aos-delay="0">
 						<!-- 이미지 찾아봐야함 -->
 						<img src="<%=cp%>/images/img/hero-img.png" class="img-fluid animated"
 							alt="">
@@ -204,7 +204,7 @@ String user_id = (String) session.getAttribute("user_id");
 			<div class="container">
 				<div class="row gy-4">
 					<div class="col-lg-6 content" data-aos="fade-up"
-						data-aos-delay="100">
+						data-aos-delay="0">
 						<p>기존에는 그룹 내에서 이벤트를 계획할 때, 카카오톡 단체 톡방과 같은 메시징 애플리케이션을 통해 계획을
 							공지하고 의견을 수렴하는 방식이 일반적이었다. 그러나 이 방법은 이벤트의 상세 계획을 명확하게 전달하는 데 불편함과
 							한계가 있었다. 예를 들어, 이벤트의 세부 사항을 일일이 설명해야 하고, 정보가 분산되어 있어 놓치는 경우가 발생할
@@ -220,7 +220,7 @@ String user_id = (String) session.getAttribute("user_id");
 						</ul>
 					</div>
 
-					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<p>1. 그룹을 생성하고 자신이 속한 그룹을 조회 및 관리(수정, 삭제)할 수 있다. 2. 그룹원 누구나
 							자유롭게 이벤트를 발의할 수 있으며, 이벤트 참여자 개인의 특성을 반영하는 맞춤형 이벤트 생성 기능을 지원한다. 3.
 							이벤트에서 사용된 경비를 입력하고 개인에 따라 금액을 달리하여 정산 금액을 산정할 수 있다. 4. 이벤트에서 촬영한
@@ -242,7 +242,7 @@ String user_id = (String) session.getAttribute("user_id");
 						class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
 
 						<div class="content px-xl-5" data-aos="fade-up"
-							data-aos-delay="100">
+							data-aos-delay="0">
 							<h3>
 								<span>그룹에서 발생하는 약속 중심의</span><br>
 								<strong>협업형 소셜네트워크시스템 웹어플리케이션</strong>
@@ -251,7 +251,7 @@ String user_id = (String) session.getAttribute("user_id");
 						</div>
 
 						<div class="faq-container px-xl-5" data-aos="fade-up"
-							data-aos-delay="200">
+							data-aos-delay="0">
 
 							<div class="faq-item faq-active">
 
@@ -305,7 +305,7 @@ String user_id = (String) session.getAttribute("user_id");
 
 					<div class="col-lg-5 order-1 order-lg-2 why-us-img">
 						<img src="<%=cp%>/images/img/why-us.png" class="img-fluid" alt=""
-							data-aos="zoom-in" data-aos-delay="100">
+							data-aos="zoom-in" data-aos-delay="0">
 					</div>
 				</div>
 
@@ -315,7 +315,7 @@ String user_id = (String) session.getAttribute("user_id");
 		<!-- /Why Us Section -->
 		<!-- Skills Section -->
 		<section id="skills" class="skills section">
-			<div class="container" data-aos="fade-up" data-aos-delay="100">
+			<div class="container" data-aos="fade-up" data-aos-delay="0">
 				<div class="row">
 					<div class="col-lg-6 d-flex align-items-center">
 						<img src="<%=cp%>/images/img/skills.png" class="img-fluid" alt="">
@@ -374,7 +374,7 @@ String user_id = (String) session.getAttribute("user_id");
 			<div class="container">
 				<div class="row gy-4">
 					<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up"
-						data-aos-delay="100">
+						data-aos-delay="0">
 						<div class="service-item position-relative">
 							<div class="icon">
 								<i class="bi bi-activity icon"></i>
@@ -387,7 +387,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Service Item -->
 					<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up"
-						data-aos-delay="200">
+						data-aos-delay="0">
 						<div class="service-item position-relative">
 							<div class="icon">
 								<i class="bi bi-bounding-box-circles icon"></i>
@@ -400,7 +400,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Service Item -->
 					<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up"
-						data-aos-delay="300">
+						data-aos-delay="0">
 						<div class="service-item position-relative">
 							<div class="icon">
 								<i class="bi bi-calendar4-week icon"></i>
@@ -413,7 +413,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Service Item -->
 					<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up"
-						data-aos-delay="400">
+						data-aos-delay="0">
 						<div class="service-item position-relative">
 							<div class="icon">
 								<i class="bi bi-broadcast icon"></i>
@@ -441,7 +441,7 @@ String user_id = (String) session.getAttribute("user_id");
 			<!-- End Section Title -->
 			<div class="container">
 				<div class="row gy-4">
-					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
 								<img src="<%=cp%>/images/teammeber/daejin.jpg" class="img-fluid" alt="">
@@ -455,7 +455,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Team Member -->
 
-					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
 								<img src="<%=cp%>/images/teammeber/minho.jpg" class="img-fluid" alt="">
@@ -469,7 +469,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Team Member -->
 
-					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
 								<img src="<%=cp%>/images/img/team/team-2.jpg" class="img-fluid" alt="">
@@ -483,7 +483,7 @@ String user_id = (String) session.getAttribute("user_id");
 					</div>
 					<!-- End Team Member -->
 
-					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
 								<img src="<%=cp%>/images/img/team/team-4.jpg" class="img-fluid" alt="">
