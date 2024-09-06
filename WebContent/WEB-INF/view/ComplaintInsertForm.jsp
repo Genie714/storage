@@ -57,6 +57,7 @@
 				신고사항입력
 			</div>
 			<div class="panel-body">
+			<!-- FORM -->
 				<form id="complaintForm" role="form" action="complaintinsert.action" method="post">
 					<div class="form-group">
 						<label for="reason_id">
@@ -78,6 +79,7 @@
 					
 					<button id="sumitBtn" type="button" class="btn btn-success btn-sm">SUBMIT</button>
 				</form>
+				<!-- END FORM -->
 			</div>
 		</div>
 	</div>

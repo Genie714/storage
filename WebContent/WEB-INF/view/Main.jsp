@@ -53,24 +53,14 @@ String user_id = (String) session.getAttribute("user_id");
 					<li><a href="#about">About</a></li>
 					<li><a href="#services">Services</a></li>
 					<li><a href="#team">Team</a></li>
-					<li class="dropdown"><a href="#"><span>Dropdown</span> <i
+					<li class="dropdown"><a href="#"><span>Go To</span> <i
 							class="bi bi-chevron-down toggle-dropdown"></i></a>
 						<ul>
-							<li><a href="#">Dropdown 1</a></li>
-							<li class="dropdown"><a href="#"><span>Deep
-										Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-								<ul>
-									<li><a href="#">Deep Dropdown 1</a></li>
-									<li><a href="#">Deep Dropdown 2</a></li>
-									<li><a href="#">Deep Dropdown 3</a></li>
-									<li><a href="#">Deep Dropdown 4</a></li>
-									<li><a href="#">Deep Dropdown 5</a></li>
-								</ul></li>
-							<li><a href="#">Dropdown 2</a></li>
-							<li><a href="#">Dropdown 3</a></li>
+							<li><a href="personal.action">개인페이지</a></li>
+							<li><a href="grouplist.action">그룹페이지</a></li>
+							<li><a href="#">알림페이지</a></li>
 							<li><a href="#">Dropdown 4</a></li>
 						</ul></li>
-					<li><a href="#contact">Contact</a></li>
 				</ul>
 				<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 			</nav>
@@ -115,7 +105,6 @@ String user_id = (String) session.getAttribute("user_id");
 			<div class="container" data-aos="zoom-in">
 				<h2>SKILLS</h2>
 				<div class="swiper init-swiper">
-					<!-- 위로 올릴지 생각해봐야할듯 -->
 					<script type="application/json" class="swiper-config">
             {
               "loop": true,
@@ -472,7 +461,7 @@ String user_id = (String) session.getAttribute("user_id");
 					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
-								<img src="<%=cp%>/images/img/team/team-2.jpg" class="img-fluid" alt="">
+								<img src="<%=cp%>/images/teammeber/seyeon.jpg" class="img-fluid" alt="">
 							</div>
 							<div class="member-info">
 								<h4>김세연</h4>
@@ -486,7 +475,7 @@ String user_id = (String) session.getAttribute("user_id");
 					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="0">
 						<div class="team-member d-flex align-items-start">
 							<div class="pic">
-								<img src="<%=cp%>/images/img/team/team-4.jpg" class="img-fluid" alt="">
+								<img src="<%=cp%>/images/teammeber/yewon.jpg" class="img-fluid" alt="">
 							</div>
 							<div class="member-info">
 								<h4>문예원</h4>

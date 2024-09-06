@@ -13,16 +13,7 @@ public class MemberDTO
 	private String find_id, question;
 	private String answer;
 	private String signup_date;
-	private String admin;
 	
-	public String getAdmin()
-	{
-		return admin;
-	}
-	public void setAdmin(String admin)
-	{
-		this.admin = admin;
-	}
 	public String getUser_id()
 	{
 		return user_id;

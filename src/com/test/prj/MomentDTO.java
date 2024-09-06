@@ -18,7 +18,9 @@ public class MomentDTO
 	private String note;
 	
 	private int parti_num;
-	private int min_participant, max_participant;
+	private int min_participant;
+	
+	private String max_participant;
 	
 	private String member_id, member_name;
 	
@@ -32,6 +34,104 @@ public class MomentDTO
 	
 	private String place_name, detail_id;
 	
+	private String user_id;
+	
+	private String survey_id, survey_response_id, survey_type_id;
+	
+	private String impossible_date, response, others;
+
+	private String nonactive_type_id, nonactive_date;
+
+	private String end_time;
+	
+	public String getEnd_time()
+	{
+		return end_time;
+	}
+	public void setEnd_time(String end_time)
+	{
+		this.end_time = end_time;
+	}
+	public String getNonactive_type_id()
+	{
+		return nonactive_type_id;
+	}
+	public void setNonactive_type_id(String nonactive_type_id)
+	{
+		this.nonactive_type_id = nonactive_type_id;
+	}
+	public String getNonactive_date()
+	{
+		return nonactive_date;
+	}
+	public void setNonactive_date(String nonactive_date)
+	{
+		this.nonactive_date = nonactive_date;
+	}
+	public String getImpossible_date()
+	{
+		return impossible_date;
+	}
+	public void setImpossible_date(String impossible_date)
+	{
+		this.impossible_date = impossible_date;
+	}
+	public String getResponse()
+	{
+		return response;
+	}
+	public void setResponse(String response)
+	{
+		this.response = response;
+	}
+	public String getOthers()
+	{
+		return others;
+	}
+	public void setOthers(String others)
+	{
+		this.others = others;
+	}
+	public String getSurvey_id()
+	{
+		return survey_id;
+	}
+	public void setSurvey_id(String survey_id)
+	{
+		this.survey_id = survey_id;
+	}
+	public String getSurvey_response_id()
+	{
+		return survey_response_id;
+	}
+	public void setSurvey_response_id(String survey_response_id)
+	{
+		this.survey_response_id = survey_response_id;
+	}
+	public String getSurvey_type_id()
+	{
+		return survey_type_id;
+	}
+	public void setSurvey_type_id(String survey_type_id)
+	{
+		this.survey_type_id = survey_type_id;
+	}
+	public String getMax_participant()
+	{
+		return max_participant;
+	}
+	public void setMax_participant(String max_participant)
+	{
+		this.max_participant = max_participant;
+	}
+	public String getUser_id()
+	{
+		return user_id;
+	}
+	public void setUser_id(String user_id)
+	{
+		this.user_id = user_id;
+	}
 	public String getDate_name()
 	{
 		return date_name;
@@ -231,14 +331,6 @@ public class MomentDTO
 	public void setMin_participant(int min_participant)
 	{
 		this.min_participant = min_participant;
-	}
-	public int getMax_participant()
-	{
-		return max_participant;
-	}
-	public void setMax_participant(int max_participant)
-	{
-		this.max_participant = max_participant;
 	}
 	
 	

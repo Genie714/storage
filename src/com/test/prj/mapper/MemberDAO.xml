@@ -22,5 +22,20 @@
 		WHERE NAME = #{user_name}
 	</select>
 	
+	<select id="userCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM TBL_USER	
+	</select>
+	
+	<insert id="addUser">
+		INSERT INTO TBL_USER(ID) VALUES(#{user_id})
+	</insert>
+	
+	<insert id="addUserInformation">
+		INSERT INTO US_INFORMATION(ID, USER_ID, MY_ID, PW, BIRTH_DATE, GENDER_ID, FIND_ID, ANSWER, NAME, SIGNUP_DATE)
+		VALUES('UI0' || USINFORMATIONSEQ.NEXTVAL, #{user_id}, #{my_id}, #{pw}, TO_DATE(#{birth_date}, 'YYYY-MM-DD')
+     	     , #{gender_id}, #{find_id}, #{answer}, #{user_name}, SYSDATE)
+	</insert>
+	
 
 </mapper>

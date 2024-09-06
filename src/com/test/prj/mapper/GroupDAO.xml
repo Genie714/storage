@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.prj.IGroupDAO">
+
+   <select id="list" resultType="com.test.prj.GroupDTO">
+      SELECT G.ID, GC.NAME, GC.INTRODUCTION, GC.ROOT, G.OPEN_DATE
+     , (SELECT COUNT(*)
+        FROM GR_MATCH
+        WHERE GROUP_ID= G.ID) AS COUNT
+	 FROM TBL_GROUP G JOIN GR_CREATION GC
+     ON G.CREATION_ID = GC.ID
+   </select>
+
+   <select id="count" resultType="java.lang.Integer">
+      SELECT COUNT(*) AS COUNT
+      FROM TBL_GROUP
+   </select>
+   
+   <select id="nextGCId" resultType="String">
+   	  SELECT 'GT0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
+	  FROM GR_CREATION
+   </select>
+   
+   <insert id="creationAdd">
+   	  INSERT INTO GR_CREATION(ID, USER_ID, NAME, INTRODUCTION, ROOT)
+   	  VALUES(#{id}, #{user_id}, #{name}, #{introduction}, #{root})
+   </insert>
+   
+   <select id="creationList" resultType="com.test.prj.GroupDTO">
+   	  SELECT C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT, C.CREATION_DATE, COUNT(*) AS COUNT
+	  FROM GR_CREATION C LEFT JOIN GR_PREINVITE P
+	    ON C.ID = P.CREATE_ID
+	    AND P.SIGNUP_WHETHER_ID = 'SW01'
+	  GROUP BY 
+	    C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT, C.CREATION_DATE, P.CREATE_ID
+   </select>
+   
+   <select id="creationCount" resultType="java.lang.Integer">
+   	  SELECT COUNT(*) AS COUNT
+	  FROM GR_CREATION
+   </select>
+   
+   <select id="questionForm" resultType="com.test.prj.GroupDTO">
+   	  SELECT ID, CONTENT
+	  FROM GR_SIGNUP_QUESTION
+	  WHERE GROUP_ID = #{group_id}
+   </select>
+   
+   <select id="nextGMId" resultType="String">
+   	  SELECT 'GM0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
+	  FROM GR_MATCH
+   </select>
+   
+   <insert id="matchAdd">
+     INSERT INTO GR_MATCH(ID, USER_ID, GROUP_ID, TYPE_ID)
+	 VALUES(#{match_id}, #{user_id}, #{group_id}, #{type_id})
+   </insert>
+   
+   <select id="nextSUId" resultType="String">
+   	  SELECT 'SU0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
+	  FROM GR_SIGNUP
+   </select>
+   
+   <insert id="signupAdd">
+   	 INSERT INTO GR_SIGNUP(ID, MEMBER_ID, GROUP_ID, SIGNUP_DATE, ALLOW_DATE, WHETHER_ID, ALARM_CHECK_DATE)
+	 VALUES(#{signup_id}, #{match_id}, #{group_id}, SYSDATE, NULL, NULL, NULL)
+   </insert>
+ 	
+ 	  
+   <select id="nextSAId" resultType="String">
+   	  SELECT 'SA0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
+	  FROM GR_SIGNUP_ANSWER
+   </select>
+   
+   <insert id="answerAdd">
+   	  INSERT INTO GR_SIGNUP_ANSWER(ID, SIGNUP_ID, QUESTION_ID, CONTENT, ANSWER_DATE) 
+   	  VALUES(#{answer_id}, #{signup_id}, #{question_id}, #{content}, SYSDATE)
+   </insert>
+   
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

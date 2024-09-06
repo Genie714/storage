@@ -64,7 +64,7 @@ public class LoginController
 			{
 				// 로그인 성공 → 세션 구성
 				session.setAttribute("user_id", user_id);
-				result = "/WEB-INF/view/Main.jsp";
+				result = "redirect:personal.action";
 			}
 
 		} catch (Exception e)
