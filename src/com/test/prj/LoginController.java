@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,10 +32,11 @@ public class LoginController
 	}
 
 	@RequestMapping(value = "login.action", method = RequestMethod.POST)
-	public String login(MemberDTO member, String admin, HttpSession session)
+	public String login(Model model, MemberDTO member, String admin, HttpSession session)
 	{
 		String result = "";
 		String user_id = null;
+		String admin_id = null;
 		ILoginDAO dao = sqlSession.getMapper(ILoginDAO.class);
 		MemberDTO resultMember;
 		try
@@ -51,14 +53,31 @@ public class LoginController
 			} else
 			{
 				// 관리자 로그인
+				resultMember = dao.loginAdmin(member);
+				if (resultMember != null)
+				{
+					admin_id = resultMember.getUser_id();					
+					if(admin_id == null)
+					{
+						// 로그인 실패 → 로그인 폼을 다시 요청할 수 있도록 안내
+						return "redirect:loginform.action?match=no";
+					} 
+					else
+					{
+						// 로그인 성공 → 세션 구성
+						session.setAttribute("admin_id", admin_id);
+						result = "redirect:admin.action";
+					}
+				}
 				// 추후 처리
+				
 			}
 
 			// 로그인 성공 여부에 따른 분기
 			if (user_id == null)
 			{
 				// 로그인 실패 → 로그인 폼을 다시 요청할 수 있도록 안내
-				return "redirect:loginform.action";
+				return "redirect:loginform.action?match=no";
 			} 
 			else
 			{
@@ -78,6 +97,7 @@ public class LoginController
 	public String logout(HttpSession session)
 	{
 		session.removeAttribute("user_id");
+	session.removeAttribute("admin_id");
 		String result = "redirect:main.action";
 		return result;
 	}

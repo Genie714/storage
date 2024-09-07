@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-String cp = request.getContextPath();
+	String cp = request.getContextPath();
+	String match = (String)request.getParameter("match");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +32,37 @@ String cp = request.getContextPath();
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
 <link href="assets/css/style.css" rel="stylesheet">
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var match = "<%= match%>";
+		
+		if (match == "no" ) {
+			alert("아이디와 비밀번호를 확인하세요");
+			
+			$("#my_id").addClass("is-invalid");
+			$("#my_id").addClass("is-was-invalidated");
+			$("#my_id").addClass("form-control:invalid");
+			
+			$("#pw").addClass("is-invalid");
+			$("#pw").addClass("is-was-invalidated");
+			$("#pw").addClass("form-control:invalid");
+			
+			
+		}
+			$("#my_id").change(function() {
+				$("#my_id").removeClass("is-invalid");
+				$("#my_id").removeClass("is-was-invalidated");
+				$("#my_id").removeClass("form-control:invalid");
+			});
+			
+			$("#pw").change(function() {
+				$("#pw").removeClass("is-invalid");
+				$("#pw").removeClass("is-was-invalidated");
+				$("#pw").removeClass("form-control:invalid");
+			});
+	})
+</script>
 </head>
 <body>
 
@@ -41,7 +74,7 @@ String cp = request.getContextPath();
 					<div class="row justify-content-center">
 						<div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 							<div class="d-flex justify-content-center py-4">
-								<a href="index.html"
+								<a href="main.action"
 									class="logo d-flex align-items-center w-auto"> 
 									<img src="assets/img/logo.png" alt=""> 
 									<span class="d-none d-lg-block">MOMENT</span>
@@ -104,7 +137,7 @@ String cp = request.getContextPath();
 											Find My
 												<a href="findid.action">Id</a>
 												/
-												<a href="findpw,action">Password</a>
+												<a href="findpw.action">Password</a>
 											</p>
 										</div>
 									</form>

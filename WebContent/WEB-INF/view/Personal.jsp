@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
 String cp = request.getContextPath();
 
 String user_id = (String) request.getSession().getAttribute("user_id");
@@ -41,38 +41,34 @@ if (user_id == null && admin == null) {
 
 <!-- Main CSS File -->
 <link href="assets/css/style.css" rel="stylesheet">
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4833730b76b007bdcf9d4907fd005673"></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4833730b76b007bdcf9d4907fd005673"></script>
 <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        , events: 
-        	[
-        		{
-          	      title: '수료일', // a property!
-          	      start: '2024-09-12', // a property!
-          	      end: '2024-09-12' // a property! ** see important note below about 'end' **
-          	    }
-			]
-        });
-        calendar.render();
-        
-        container = document.getElementById("map");
-        mapCenter = new kakao.maps.LatLng(37.5565389,126.9195136);
-        options = 
-		{
+	document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialView : 'dayGridMonth',
+			events : 
+			[ {
+				title : '수료일', // a property!
+				start : '2024-09-12', // a property!
+				end : '2024-09-12' // a property! ** see important note below about 'end' **
+			}]
+		});
+		calendar.render();
+
+		container = document.getElementById("map");
+		mapCenter = new kakao.maps.LatLng(37.5565389, 126.9195136);
+		options = {
 			center : mapCenter,
 			level : 3,
 		};
 		map = new kakao.maps.Map(container, options);
-        
-        
-      });
-      
 
-    </script>
+	});
+</script>
 
 </head>
 <body>
@@ -173,13 +169,13 @@ if (user_id == null && admin == null) {
 					href="#" data-bs-toggle="dropdown"> <img
 						src="assets/img/profile-img.jpg" alt="Profile"
 						class="rounded-circle"> <span
-						class="d-none d-md-block dropdown-toggle ps-2"><%=user_id%></span>
+						class="d-none d-md-block dropdown-toggle ps-2">${userinfo.user_name}</span>
 				</a> <!-- End Profile Iamge Icon -->
 
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
-							<h6><%=user_id%>n
+							<h6>${userinfo.user_name}
 							</h6>
 						</li>
 						<li>
@@ -232,170 +228,86 @@ if (user_id == null && admin == null) {
 			</a>
 				<ul id="components-nav" class="nav-content collapse "
 					data-bs-parent="#sidebar-nav">
-					<li><a href="components-alerts.html"> <i
-							class="bi bi-circle"></i><span>SIST</span>
-					</a></li>
-					<li><a href="components-accordion.html"> <i
-							class="bi bi-circle"></i><span>군대 모임</span>
-					</a></li>
-					<li><a href="components-badges.html"> <i
-							class="bi bi-circle"></i><span>고등학교 동창회</span>
-					</a></li>
-					<li><a href="components-breadcrumbs.html"> <i
-							class="bi bi-circle"></i><span>대학교 동기회</span>
-					</a></li>
-					<li><a href="components-buttons.html"> <i
-							class="bi bi-circle"></i><span>Buttons</span>
-					</a></li>
-					<li><a href="components-cards.html"> <i
-							class="bi bi-circle"></i><span>Cards</span>
-					</a></li>
-					<li><a href="components-carousel.html"> <i
-							class="bi bi-circle"></i><span>Carousel</span>
-					</a></li>
-					<li><a href="components-list-group.html"> <i
-							class="bi bi-circle"></i><span>List group</span>
-					</a></li>
-					<li><a href="components-modal.html"> <i
-							class="bi bi-circle"></i><span>Modal</span>
-					</a></li>
-					<li><a href="components-tabs.html"> <i
-							class="bi bi-circle"></i><span>Tabs</span>
-					</a></li>
-					<li><a href="components-pagination.html"> <i
-							class="bi bi-circle"></i><span>Pagination</span>
-					</a></li>
-					<li><a href="components-progress.html"> <i
-							class="bi bi-circle"></i><span>Progress</span>
-					</a></li>
-					<li><a href="components-spinners.html"> <i
-							class="bi bi-circle"></i><span>Spinners</span>
-					</a></li>
-					<li><a href="components-tooltips.html"> <i
-							class="bi bi-circle"></i><span>Tooltips</span>
-					</a></li>
+					<c:if test="${groupList != null }">
+					<c:forEach var="item" items="${ groupList}">
+					<li>
+						<a href="group.action?group_id=${item.group_id }"> 
+							<i class="bi bi-circle"></i>
+							<span>${item.name }</span>
+						</a>
+					</li>
+					</c:forEach>
+					</c:if>
+					<c:if test="${groupList == null }">
+						<li>
+						<a href="#"> 
+							<i class="bi bi-circle"></i>
+							<span>소속된 그룹이 없습니다.</span>
+						</a>
+					</li>
+					</c:if>
+					
 				</ul></li>
 			<!-- End Components Nav -->
 
 			<li class="nav-item"><a class="nav-link collapsed"
 				data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-journal-text"></i><span>Forms</span><i
+					<i class="bi bi-journal-text"></i> <span>즐겨찾기</span> <i
 					class="bi bi-chevron-down ms-auto"></i>
 			</a>
 				<ul id="forms-nav" class="nav-content collapse "
 					data-bs-parent="#sidebar-nav">
-					<li><a href="forms-elements.html"> <i class="bi bi-circle"></i><span>Form
-								Elements</span>
-					</a></li>
-					<li><a href="forms-layouts.html"> <i class="bi bi-circle"></i><span>Form
-								Layouts</span>
-					</a></li>
-					<li><a href="forms-editors.html"> <i class="bi bi-circle"></i><span>Form
-								Editors</span>
-					</a></li>
-					<li><a href="forms-validation.html"> <i
-							class="bi bi-circle"></i><span>Form Validation</span>
-					</a></li>
-				</ul></li>
-			<!-- End Forms Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i
-					class="bi bi-chevron-down ms-auto"></i>
-			</a>
-				<ul id="tables-nav" class="nav-content collapse "
-					data-bs-parent="#sidebar-nav">
-					<li><a href="tables-general.html"> <i class="bi bi-circle"></i><span>General
-								Tables</span>
-					</a></li>
-					<li><a href="tables-data.html"> <i class="bi bi-circle"></i><span>Data
-								Tables</span>
-					</a></li>
-				</ul></li>
-			<!-- End Tables Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-bar-chart"></i><span>Charts</span><i
-					class="bi bi-chevron-down ms-auto"></i>
-			</a>
-				<ul id="charts-nav" class="nav-content collapse "
-					data-bs-parent="#sidebar-nav">
-					<li><a href="charts-chartjs.html"> <i class="bi bi-circle"></i><span>Chart.js</span>
-					</a></li>
-					<li><a href="charts-apexcharts.html"> <i
-							class="bi bi-circle"></i><span>ApexCharts</span>
-					</a></li>
-					<li><a href="charts-echarts.html"> <i class="bi bi-circle"></i><span>ECharts</span>
-					</a></li>
-				</ul></li>
-			<!-- End Charts Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-gem"></i><span>Icons</span><i
-					class="bi bi-chevron-down ms-auto"></i>
-			</a>
-				<ul id="icons-nav" class="nav-content collapse "
-					data-bs-parent="#sidebar-nav">
-					<li><a href="icons-bootstrap.html"> <i
-							class="bi bi-circle"></i><span>Bootstrap Icons</span>
-					</a></li>
-					<li><a href="icons-remix.html"> <i class="bi bi-circle"></i><span>Remix
-								Icons</span>
-					</a></li>
-					<li><a href="icons-boxicons.html"> <i class="bi bi-circle"></i><span>Boxicons</span>
-					</a></li>
-				</ul></li>
-			<!-- End Icons Nav -->
-
-			<li class="nav-heading">Pages</li>
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="users-profile.html"> <i class="bi bi-person"></i> <span>Profile</span>
-			</a></li>
-			<!-- End Profile Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-faq.html"> <i class="bi bi-question-circle"></i> <span>F.A.Q</span>
-			</a></li>
-			<!-- End F.A.Q Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-contact.html"> <i class="bi bi-envelope"></i> <span>Contact</span>
-			</a></li>
-			<!-- End Contact Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-register.html"> <i class="bi bi-card-list"></i> <span>Register</span>
-			</a></li>
-			<!-- End Register Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-login.html"> <i class="bi bi-box-arrow-in-right"></i>
-					<span>Login</span>
-			</a></li>
-			<!-- End Login Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-error-404.html"> <i class="bi bi-dash-circle"></i> <span>Error
-						404</span>
-			</a></li>
-			<!-- End Error 404 Page Nav -->
-
-			<li class="nav-item"><a class="nav-link collapsed"
-				href="pages-blank.html"> <i class="bi bi-file-earmark"></i> <span>Blank</span>
-			</a></li>
-			<!-- End Blank Page Nav -->
-
+					<li><a class="nav-link collapsed"
+						data-bs-target="#fv_grouplist" data-bs-toggle="collapse" href="#">
+							<i class="bi bi-circle"></i> <span>즐겨찾기한 그룹</span> <i
+							class="bi bi-chevron-down ms-auto"></i>
+					</a>
+						<ul id="fv_grouplist" class="nav-content collapse "
+							data-bs-parent="#forms-nav">
+							<li><a href="personal.action">SIST</a></li>
+							<li><a href="grouplist.action">대학동기</a></li>
+							<li><a href="#">군대 동기</a></li>
+							<li><a href="#">Dropdown 4</a></li>
+						</ul></li>
+					<li>
+						<a class="nav-link collapsed"
+					data-bs-target="#fv_momentlist" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-circle"></i>
+						<span>즐겨찾기한 모먼트</span>
+						<i class="bi bi-chevron-down ms-auto"></i>
+						</a>
+						<ul id="fv_momentlist" class="nav-content collapse "
+					data-bs-parent="#forms-nav">
+							<li><a href="personal.action">겨울여행</a></li>
+							<li><a href="grouplist.action">여름여행</a></li>
+							<li><a href="#">봄여행</a></li>
+							<li><a href="#">저녁모임</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-link collapsed"
+					data-bs-target="#fv_gallerylist" data-bs-toggle="collapse" href="#">
+						<i class="bi bi-circle"></i>
+						<span>즐겨찾기한 갤러리</span>
+						<i class="bi bi-chevron-down ms-auto"></i>
+						</a>
+						<ul id="fv_gallerylist" class="nav-content collapse "
+					data-bs-parent="#forms-nav">
+							<li><a href="personal.action">ㅇㅇ 모먼트의 갤러리</a></li>
+							<li><a href="grouplist.action">ㅇㅇ 모먼트의 갤러리</a></li>
+							<li><a href="#">ㅇㅇ 모먼트의 갤러리</a></li>
+							<li><a href="#">ㅇㅇ 모먼트의 갤러리</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<!-- End Forms Nav -->	
 		</ul>
 
 	</aside>
 	<!-- End Sidebar-->
 
 	<main id="main" class="main">
-
 		<div class="pagetitle">
 			<h1>개인페이지</h1>
 			<nav>
@@ -612,42 +524,21 @@ if (user_id == null && admin == null) {
 											<tr>
 												<th scope="col">Num</th>
 												<th scope="col">GroupName</th>
+												<th scope="col">Introduction</th>
 												<th scope="col">MemberCount</th>
 												<th scope="col">Since</th>
 											</tr>
 										</thead>
 										<tbody>
+											<c:forEach var="item" items="${groupList }" varStatus="status">
 											<tr>
-												<th scope="row">1</th>
-												<td><a href="#" class="text-primary">독서모임</a></td>
-												<td>57명</td>
-												<td>2024-01-01</td>
+												<th scope="row">${status.count }</th>
+												<td><a href="group.action?group_id=${item.group_id }" class="text-primary">${item.name }</a></td>
+												<td>${item.introduction }</td>
+												<td>${item.count }</td>
+												<td>${item.creation_date }</td>
 											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td><a href="#" class="text-primary">SIST</a></td>
-												<td>5명</td>
-												<td>2024-01-01</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td><a href="#" class="text-primary">군대동기</a></td>
-												<td>20명</td>
-												<td>2024-01-01</td>
-											</tr>
-											<tr>
-												<th scope="row">4</th>
-												<td><a href="#" class="text-primary">대학동기</a></td>
-												<td>27명</td>
-												<td>2024-01-01</td>
-
-											</tr>
-											<tr>
-												<th scope="row">5</th>
-												<td><a href="#" class="text-primar">바보들</a></td>
-												<td>8명</td>
-												<td>2024-01-01</td>
-											</tr>
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -657,59 +548,50 @@ if (user_id == null && admin == null) {
 
 						<!-- Moment List -->
 						<div class="col-12">
-						<div class="col-12">
-							<div class="card recent-sales overflow-auto">
-								<div class="card-body">
-									<h5 class="card-title">
-										MOMENT List <span>| My MOMENT</span>
-									</h5>
-									<table class="table table-sm">
-										<thead>
-											<tr>
-												<th scope="col">Num</th>
-												<th scope="col">MOMENTName</th>
-												<th scope="col">PLACE</th>
-												<th scope="col">DATE</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td><a href="#" class="text-primary">여름여행</a></td>
-												<td>충주 거기</td>
-												<td>2024-01-01</td>
-											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td><a href="#" class="text-primary">겨울여행</a></td>
-												<td>광주</td>
-												<td>2024-01-01</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td><a href="#" class="text-primary">추석여행</a></td>
-												<td>서울</td>
-												<td>2024-01-01</td>
-											</tr>
-											<tr>
-												<th scope="row">4</th>
-												<td><a href="#" class="text-primary">저녁식사</a></td>
-												<td>홍대</td>
-												<td>2024-01-01</td>
-
-											</tr>
-											<tr>
-												<th scope="row">5</th>
-												<td><a href="#" class="text-primar">점심식사</a></td>
-												<td>노원구</td>
-												<td>2024-01-01</td>
-											</tr>
-										</tbody>
-									</table>
+							<div class="col-12">
+								<div class="card recent-sales overflow-auto">
+									<div class="card-body">
+										<h5 class="card-title">
+											MOMENT List <span>| My MOMENT</span>
+										</h5>
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th scope="col">Num</th>
+													<th scope="col">Name</th>
+													<th scope="col">Group</th>
+													<th scope="col">Phase</th>
+													<th scope="col">PLACE</th>
+													<th scope="col">DATE</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach var="item" items="${momentList }" varStatus="status">
+												<tr>
+													<th scope="row">${status.count }</th>
+													<td>
+														<c:if test="${item.phase_id == 'MH01' }">
+														<a href="/momentoper.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														</c:if>
+														<c:if test="${item.phase_id == 'MH02' }">
+														<a href="/momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														</c:if>
+														<c:if test="${item.phase_id == 'MH03' }">
+														<a href="/momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														</c:if>
+													</td>
+													<td>${item.group_name }</td>
+													<td>${item.phase }</td>
+													<td>${item.place_name }</td>
+													<td>${item.date_name }</td>
+												</tr>
+												</c:forEach>	
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
-													
+
 						</div>
 						<!-- End Moment List -->
 
@@ -809,7 +691,7 @@ if (user_id == null && admin == null) {
 								Favorite Picture <span>| Gallery</span>
 							</h5>
 							<div class="swiper init-swiper">
-										<script type="application/json" class="swiper-config">
+								<script type="application/json" class="swiper-config">
             {
               "loop": false,
               "speed": 600,
@@ -846,27 +728,33 @@ if (user_id == null && admin == null) {
               }
             }
           </script>
-										<div class="swiper-wrapper align-items-center">
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample1.jpg" alt="" class="img-fluid"/>
-											</div>
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample2.jpg" alt="" class="img-fluid"/>
-											</div>
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample3.jpg" alt="" class="img-fluid"/>
-											</div>
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample4.jpg" alt="" class="img-fluid"/>
-											</div>
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample5.jpg" alt="" class="img-fluid"/>
-											</div>
-											<div class="swiper-slide">
-												<img src="<%=cp%>/images/sampleimage/sample6.jpg" alt="" class="img-fluid"/>
-											</div>
-										</div>
+								<div class="swiper-wrapper align-items-center">
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample1.jpg" alt=""
+											class="img-fluid" />
 									</div>
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample2.jpg" alt=""
+											class="img-fluid" />
+									</div>
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample3.jpg" alt=""
+											class="img-fluid" />
+									</div>
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample4.jpg" alt=""
+											class="img-fluid" />
+									</div>
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample5.jpg" alt=""
+											class="img-fluid" />
+									</div>
+									<div class="swiper-slide">
+										<img src="<%=cp%>/images/sampleimage/sample6.jpg" alt=""
+											class="img-fluid" />
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!-- End Favorite Ficture -->

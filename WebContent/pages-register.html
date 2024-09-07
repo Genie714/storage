@@ -51,7 +51,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">NiceAdmin</span>
+                  <span class="d-none d-lg-block">MOMENT</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -64,33 +64,91 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form  action="memberinsert.action" method="post" id="myForm" class="row g-3 needs-validation" novalidate>
                     <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
+                      <label for="my_id" class="form-label">아이디</label>
+                      <input type="text" name="my_id" class="form-control" id="my_id" required
+                      placeholder="6 ~ 12자 / 영어, 숫자 사용 가능" maxlength="12">
+                      <div style="display: none;" id="idError1" class="error">
+	                      <span style="font-size: small; color: red;">※ 이미 존재하는 아이디입니다.</span>
+                      </div>
+                      <div style="display: none;" id="idError2" class="error">
+	                      <span style="font-size: small; color: red;">※ 6자 이상 입력해야 합니다.</span>
+                      </div>
+                      <div style="display: none;" id="idError3" class="error">
+	                      <span style="font-size: small; color: red;">※ 사용 불가능한 문자입니다.</span>
+                      </div>
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <label for="pw" class="form-label">비밀번호</label>
+                      <input type="password" class="form-control" id="pw" name="pw" maxlength="16" 
+                      placeholder="8 ~ 16자 / 영어, 숫자 필수(특수문자 사용가능) " required>
+                      <div style="display: none;" id="pwError1" class="error">
+                      	<span style="font-size: small; color: red;">※ 8자 이상 입력해야 합니다.</span>
+					  </div>
+					  <div style="display: none;" id="pwError2" class="error"><span
+									style="font-size: small; color: red;">※ 영어, 숫자가 포함되어야합니다.</span>
+					</div>
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="user_name" class="form-label">닉네임</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" name="user_name" class="form-control" id="user_name" required
+                        placeholder="2 ~ 30자 / 중복 불가" maxlength="30" >
+                        <div style="display: none;" id="nameError1" class="error">
+                        <span style="font-size: small; color: red;">※ 2자 이상 입력해야 합니다.</span>
+						</div>
+						<div style="display: none;" id="nameError2" class="error">
+							<span style="font-size: small; color: red;">※ 이미 존재하는 닉네임입니다.</span>
+						</div>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
-
+                    
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
+                      <label for="user_name" class="form-label">생년월일</label>
+                      <div class="input-group has-validation">
+                        <input type="text" name="birth_date" class="form-control" id="birth_date" required
+                        placeholder="생년월일" >
+						</div>
+                     </div>
+                     
+                     <div class="col-12">
+                      <label for="male" class="form-label">성별</label>
+                      	<div class="input-group has-validation">
+                       		<input type="radio" id="male" name="gender_id"
+									value="GD01" checked="checked" class="gender"> <label
+									for="male" style="font-size: 14px;">남성</label> <input
+									type="radio" id="female" name="gender_id" value="GD02"
+									class="gender"> <label for="female"
+									style="font-size: 14px;">여성</label>
+						</div>
+                     </div>
+                     
+                     <div class="col-12">
+                      <label for="male" class="form-label">비밀번호 찾기 질문 / 답변</label>
+                      	<div class="input-group has-validation">
+                       		<div>
+                       		<select id="find_id" name="find_id">
+										<c:forEach var="find" items="${findList }">
+											<option value="${find.find_id }">${find.question }</option>
+										</c:forEach>
+							</select> <input type="text" id="answer" name="answer"
+									class="form-control" placeholder="답변" maxlength="100"
+									required="required">
+                       		</div>
+                       		<div style="display: none;" id="answerError" class="error">
+									<span style="font-size: small; color: red;">※ 2자 이상 입력해야
+										합니다.</span>
+							</div>
+						</div>
+                     </div>
+
+                  
 
                     <div class="col-12">
                       <div class="form-check">
@@ -100,25 +158,17 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                      <button class="btn btn-primary w-100" type="submit">등록</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                      <p class="small mb-0">Already have an account? <a href="loginform.action">Log in</a></p>
                     </div>
                   </form>
 
                 </div>
               </div>
-
-              <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-              </div>
-
             </div>
+
           </div>
         </div>
 
@@ -126,7 +176,6 @@
 
     </div>
   </main><!-- End #main -->
-
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

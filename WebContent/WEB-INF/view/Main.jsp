@@ -53,8 +53,8 @@ String user_id = (String) session.getAttribute("user_id");
 					<li><a href="#about">About</a></li>
 					<li><a href="#services">Services</a></li>
 					<li><a href="#team">Team</a></li>
-					<li class="dropdown"><a href="#"><span>Go To</span> <i
-							class="bi bi-chevron-down toggle-dropdown"></i></a>
+					<li class="dropdown"><a href="#"><span>Go To</span> 
+					<i class="bi bi-chevron-down toggle-dropdown"></i></a>
 						<ul>
 							<li><a href="personal.action">개인페이지</a></li>
 							<li><a href="grouplist.action">그룹페이지</a></li>
