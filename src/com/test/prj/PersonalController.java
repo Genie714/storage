@@ -37,9 +37,26 @@ public class PersonalController
 		// 모먼트 리스트 가져오기
 		ArrayList<MomentDTO> momentList = dao.findMoment(user_id);
 		
+		// 가장 최근 모먼트 가져오기
+		MomentDTO recentMoment = dao.findRecent(user_id);
+		
+		// 가장 가까운 다음 모먼트 가져오기
+		MomentDTO nextMoment = dao.findNext(user_id);
+		
+		// 빌딩 중인 모먼트 가져오기
+		ArrayList<MomentDTO> buildingMoment = dao.findBuilding(user_id);
+		
+		//모먼트 서머리 가져오기
+		ArrayList<MomentDTO> summaryMoment = dao.findSummary(user_id);
+		
+		
 		model.addAttribute("userinfo", userinfo);
 		model.addAttribute("groupList", groupList);
 		model.addAttribute("momentList", momentList);
+		model.addAttribute("recentMoment", recentMoment);
+		model.addAttribute("nextMoment", nextMoment);
+		model.addAttribute("buildingMoment", buildingMoment);
+		model.addAttribute("summaryMoment", summaryMoment);
 		
 		result = "/WEB-INF/view/Personal.jsp";
 		

@@ -9,4 +9,14 @@ public interface IPersonalDAO
 	public ArrayList<GroupDTO> findGroup(String user_id);
 	
 	public ArrayList<MomentDTO> findMoment(String user_id);
+	
+	public MomentDTO findRecent(String user_id);
+	
+	public MomentDTO findNext(String user_id);
+	
+	public ArrayList<MomentDTO> findBuilding(String user_id);
+	
+	public ArrayList<MomentDTO> findSummary(String user_idq);
+	
+	
 }

@@ -69,6 +69,7 @@ if (user_id == null && admin == null) {
 			]
 		});
 		calendar.render();
+		
 
 		container = document.getElementById("map");
 		mapCenter = new kakao.maps.LatLng(37.5565389, 126.9195136);
@@ -354,10 +355,10 @@ if (user_id == null && admin == null) {
 										</div>
 										<div class="ps-3">
 											<h6>
-												<a href="#" style="color: black;">주말 프로젝트</a>
+												<a href="momentinfo.action?moment_id=${recentMoment.moment_id }&group_id=${recentMoment.group_id}" style="color: black;">${recentMoment.moment_name }</a>
 											</h6>
-											<span class="text-success small pt-1 fw-bold">2024-08-31</span>
-											<span class="text-muted small pt-2 ps-1">SIST_F_2</span>
+											<span class="text-success small pt-1 fw-bold">${recentMoment.date_name }</span><br>
+											<span class="text-muted small pt-2 ps-1">${recentMoment.group_name }</span>
 										</div>
 									</div>
 								</div>
@@ -381,10 +382,10 @@ if (user_id == null && admin == null) {
 										</div>
 										<div class="ps-3">
 											<h6>
-												<a href="" style="color: black;">수료회식</a>
+												<a href="momentinfo.action?moment_id=${nextMoment.moment_id }&group_id=${nextMoment.group_id}" style="color: black;">${nextMoment.moment_name }</a>
 											</h6>
-											<span class="text-success small pt-1 fw-bold">2024-09-12</span>
-											<span class="text-muted small pt-2 ps-1">SIST_F</span>
+											<span class="text-success small pt-1 fw-bold">${nextMoment.date_name }</span><br>
+											<span class="text-muted small pt-2 ps-1">${nextMoment.group_name }</span>
 
 										</div>
 									</div>
@@ -442,6 +443,7 @@ if (user_id == null && admin == null) {
             }
           </script>
 										<div class="swiper-wrapper align-items-center">
+										<c:forEach var="item" items="${buildingMoment }">
 											<div class="swiper-slide">
 												<div class="d-flex align-items-center">
 													<div
@@ -449,56 +451,17 @@ if (user_id == null && admin == null) {
 														<i class="bi bi-people"></i>
 													</div>
 													<div class="ps-3">
-														<h6>겨울 해외여행</h6>
-														<span class="text-success small pt-1 fw-bold">2025-11-31</span>
-														<span class="text-muted small pt-2 ps-1">SIST_F_2</span>
+														<h6>
+															<a href="momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" style="color: black;">${item.moment_name }</a>
+														</h6>
+														<span class="text-success small pt-1 fw-bold">${item.date_name }</span><br>
+														<span class="text-muted small pt-2 ps-1">${item.group_name }</span>
 													</div>
 												</div>
 											</div>
-											<div class="swiper-slide">
-												<div class="d-flex align-items-center">
-													<div
-														class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-														<i class="bi bi-people"></i>
-													</div>
-													<div class="ps-3">
-														<h6>크리스마스</h6>
-														<span class="text-success small pt-1 fw-bold">2024-12</span>
-														<span class="text-muted small pt-2 ps-1">대학동기</span>
-
-													</div>
-												</div>
-											</div>
-											<div class="swiper-slide">
-												<div class="d-flex align-items-center">
-													<div
-														class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-														<i class="bi bi-people"></i>
-													</div>
-													<div class="ps-3">
-														<h6>설날 모임</h6>
-														<span class="text-success small pt-1 fw-bold">2024-9-15</span>
-														<span class="text-muted small pt-2 ps-1">바보들</span>
-
-													</div>
-												</div>
-											</div>
+										</c:forEach>	
 										</div>
 									</div>
-									<!-- 
-									<div class="d-flex align-items-center">
-										<div
-											class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-											<i class="bi bi-people"></i>
-										</div>
-										<div class="ps-3">
-											<h6>1244</h6>
-											<span class="text-danger small pt-1 fw-bold">12%</span> <span
-												class="text-muted small pt-2 ps-1">decrease</span>
-
-										</div>
-									</div>
-									 -->
 								</div>
 								<!-- end cardbody -->
 							</div>
@@ -622,64 +585,29 @@ if (user_id == null && admin == null) {
 								Next MOMENT <span>| Summary</span>
 							</h5>
 							<div class="activity">
+								<c:forEach var="item" items="${summaryMoment }">
 								<div class="activity-item d-flex">
-									<div class="activite-label">32 min</div>
+									<div class="activite-label">${item.date_name }</div>
 									<i
 										class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 									<div class="activity-content">
-										Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo
-											officiis</a> beatae
+										${item.group_name } 
+										<a href="momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="fw-bold text-dark">${item.moment_name }</a>
+										${item.place_name }
 									</div>
 								</div>
-								<!-- End activity item-->
-
 								<div class="activity-item d-flex">
-									<div class="activite-label">56 min</div>
+									<div class="activite-label">${item.date_name }</div>
 									<i
-										class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-									<div class="activity-content">Voluptatem blanditiis
-										blanditiis eveniet</div>
-								</div>
-								<!-- End activity item-->
-
-								<div class="activity-item d-flex">
-									<div class="activite-label">2 hrs</div>
-									<i
-										class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-									<div class="activity-content">Voluptates corrupti
-										molestias voluptatem</div>
-								</div>
-								<!-- End activity item-->
-
-								<div class="activity-item d-flex">
-									<div class="activite-label">1 day</div>
-									<i
-										class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+										class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
 									<div class="activity-content">
-										Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati
-											voluptatem</a> tempore
+										${item.group_name } 
+										<a href="momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="fw-bold text-dark">${item.moment_name }</a>
+										${item.place_name }
 									</div>
 								</div>
 								<!-- End activity item-->
-
-								<div class="activity-item d-flex">
-									<div class="activite-label">2 days</div>
-									<i
-										class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-									<div class="activity-content">Est sit eum reiciendis
-										exercitationem</div>
-								</div>
-								<!-- End activity item-->
-
-								<div class="activity-item d-flex">
-									<div class="activite-label">4 weeks</div>
-									<i
-										class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-									<div class="activity-content">Dicta dolorem harum nulla
-										eius. Ut quidem quidem sit quas</div>
-								</div>
-								<!-- End activity item-->
-
+								</c:forEach>
 							</div>
 
 						</div>
