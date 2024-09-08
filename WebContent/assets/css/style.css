@@ -741,6 +741,10 @@ h6 {
   transition: 0.3s;
 }
 
+.sidebar-nav .nav-content a.padding {
+    padding-left: 60px;
+}
+
 .sidebar-nav .nav-content a i {
   font-size: 6px;
   margin-right: 8px;

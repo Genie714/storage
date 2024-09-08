@@ -51,11 +51,22 @@ if (user_id == null && admin == null) {
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			initialView : 'dayGridMonth',
 			events : 
-			[ {
-				title : '수료일', // a property!
-				start : '2024-09-12', // a property!
-				end : '2024-09-12' // a property! ** see important note below about 'end' **
-			}]
+			[ 
+				// 모먼트 날짜 찍어주기
+				<c:forEach var="item" items="${momentList}">
+				{
+				title : '${item.moment_name}', // a property!
+				start : '${item.date_name}', // a property!
+				end : '${item.date_name}' // a property! ** see important note below about 'end' **
+				}
+				<c:if test="${!Status.last }">
+				,
+				</c:if>
+				
+				</c:forEach>
+				
+				
+			]
 		});
 		calendar.render();
 
@@ -223,9 +234,9 @@ if (user_id == null && admin == null) {
 
 			<li class="nav-item"><a class="nav-link collapsed"
 				data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-					<i class="bi bi-menu-button-wide"></i><span>그룹리스트</span><i
-					class="bi bi-chevron-down ms-auto"></i>
-			</a>
+					<i class="bi bi-menu-button-wide"></i>
+					<span>그룹리스트</span>
+					<i class="bi bi-chevron-down ms-auto"></i></a>
 				<ul id="components-nav" class="nav-content collapse "
 					data-bs-parent="#sidebar-nav">
 					<c:if test="${groupList != null }">
@@ -264,10 +275,12 @@ if (user_id == null && admin == null) {
 					</a>
 						<ul id="fv_grouplist" class="nav-content collapse "
 							data-bs-parent="#forms-nav">
-							<li><a href="personal.action">SIST</a></li>
-							<li><a href="grouplist.action">대학동기</a></li>
-							<li><a href="#">군대 동기</a></li>
-							<li><a href="#">Dropdown 4</a></li>
+							<li>
+								<a class="padding" href="personal.action"><i class="bi bi-circle"></i>SIST</a>
+							</li>
+							<li><a class="padding" href="grouplist.action"><i class="bi bi-circle"></i>대학동기</a></li>
+							<li><a class="padding" href="#"><i class="bi bi-circle"></i>군대 동기</a></li>
+							<li><a class="padding" href="#"><i class="bi bi-circle"></i>Dropdown 4</a></li>
 						</ul></li>
 					<li>
 						<a class="nav-link collapsed"
@@ -278,10 +291,10 @@ if (user_id == null && admin == null) {
 						</a>
 						<ul id="fv_momentlist" class="nav-content collapse "
 					data-bs-parent="#forms-nav">
-							<li><a href="personal.action">겨울여행</a></li>
-							<li><a href="grouplist.action">여름여행</a></li>
-							<li><a href="#">봄여행</a></li>
-							<li><a href="#">저녁모임</a></li>
+							<li><a class="padding" href="personal.action"><i class="bi bi-circle"></i>겨울여행</a></li>
+							<li><a class="padding" href="grouplist.action"><i class="bi bi-circle"></i>여름여행</a></li>
+							<li><a class="padding" href="#"><i class="bi bi-circle"></i>봄여행</a></li>
+							<li><a class="padding" href="#"><i class="bi bi-circle"></i>저녁모임</a></li>
 						</ul>
 					</li>
 					<li>
@@ -571,13 +584,13 @@ if (user_id == null && admin == null) {
 													<th scope="row">${status.count }</th>
 													<td>
 														<c:if test="${item.phase_id == 'MH01' }">
-														<a href="/momentoper.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														<a href="momentoper.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
 														</c:if>
 														<c:if test="${item.phase_id == 'MH02' }">
-														<a href="/momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														<a href="momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
 														</c:if>
 														<c:if test="${item.phase_id == 'MH03' }">
-														<a href="/momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
+														<a href="momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="text-primary">${item.moment_name }</a>
 														</c:if>
 													</td>
 													<td>${item.group_name }</td>
