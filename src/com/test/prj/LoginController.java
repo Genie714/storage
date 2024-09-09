@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController
@@ -30,19 +31,21 @@ public class LoginController
 
 		return result;
 	}
-
+	
+	
 	@RequestMapping(value = "login.action", method = RequestMethod.POST)
-	public String login(Model model, MemberDTO member, String admin, HttpSession session)
+	public String login(Model model, MemberDTO member, @RequestParam(value = "admin" ,defaultValue = "0") int admin, HttpSession session)
 	{
 		String result = "";
 		String user_id = null;
 		String admin_id = null;
 		ILoginDAO dao = sqlSession.getMapper(ILoginDAO.class);
 		MemberDTO resultMember;
+		
 		try
 		{
 			// 로그인 처리 → 대상에 따른 로그인 처리 방식 분기
-			if (admin == null)
+			if (admin == 0)
 			{
 				// 일반 사원 로그인
 				resultMember = dao.login(member);
@@ -56,7 +59,7 @@ public class LoginController
 				resultMember = dao.loginAdmin(member);
 				if (resultMember != null)
 				{
-					admin_id = resultMember.getUser_id();					
+					admin_id = resultMember.getUser_id();
 					if(admin_id == null)
 					{
 						// 로그인 실패 → 로그인 폼을 다시 요청할 수 있도록 안내
@@ -67,6 +70,7 @@ public class LoginController
 						// 로그인 성공 → 세션 구성
 						session.setAttribute("admin_id", admin_id);
 						result = "redirect:admin.action";
+						return result;
 					}
 				}
 				// 추후 처리

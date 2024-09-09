@@ -86,7 +86,7 @@ body
 
 <form role="form" action="managervotefin.action" method="post">
 	
-	<%-- <input type="hidden" name="groupId" value="${group_id}" /> --%>
+	<input type="text" name="groupId" value="${group_id}" />
 	
     <div class="list-container">
         <h2 class="list-title">매니저 임명 후보리스트</h2>

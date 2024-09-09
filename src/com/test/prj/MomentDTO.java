@@ -42,15 +42,32 @@ public class MomentDTO
 
 	private String nonactive_type_id, nonactive_date;
 
-	private String end_time;
+	private String vote_id, vote_response_id;
+	private String vote_select_id;
 	
-	public String getEnd_time()
+	public String getVote_select_id()
 	{
-		return end_time;
+		return vote_select_id;
 	}
-	public void setEnd_time(String end_time)
+	public void setVote_select_id(String vote_select_id)
 	{
-		this.end_time = end_time;
+		this.vote_select_id = vote_select_id;
+	}
+	public String getVote_id()
+	{
+		return vote_id;
+	}
+	public void setVote_id(String vote_id)
+	{
+		this.vote_id = vote_id;
+	}
+	public String getVote_response_id()
+	{
+		return vote_response_id;
+	}
+	public void setVote_response_id(String vote_response_id)
+	{
+		this.vote_response_id = vote_response_id;
 	}
 	public String getNonactive_type_id()
 	{

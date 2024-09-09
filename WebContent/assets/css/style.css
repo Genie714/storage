@@ -1246,3 +1246,21 @@ h6 {
   	overflow: hidden;
   	text-overflow: ellipsis;
  }
+ 
+ 
+.complaint-content
+{
+ 	display: inline-block !important; 
+ 	 max-width: 170px !important; /* 원하는 최대 너비 설정 */
+  	white-space: nowrap !important;
+  	overflow: hidden !important;
+  	text-overflow: ellipsis !important;
+ }
+ 
+ .cancelNoti
+ {
+margin-right: 1px !important;
+margin-left: 1px !important;
+font-size: 20px !important;
+color: rgb(13, 110, 253) !important;
+}

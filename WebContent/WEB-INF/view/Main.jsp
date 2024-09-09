@@ -171,10 +171,6 @@ String user_id = (String) session.getAttribute("user_id");
 							<img src="<%=cp%>/images/skillsimage/jsp.png" class="img-fluid"
 								alt="">
 						</div>
-						<div class="swiper-slide">
-							<img src="<%=cp%>/images/img/clients/client-8.png" class="img-fluid"
-								alt="">
-						</div>
 					</div>
 				</div>
 

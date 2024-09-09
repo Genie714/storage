@@ -11,10 +11,10 @@
 		  AND PW = #{pw}
 	</select>
 	
-	<!-- <select id="loginAdmin" resultType="com.test.prj.MemberDTO">
+	<select id="loginAdmin" resultType="com.test.prj.MemberDTO">
 		SELECT ID AS USER_ID
 		FROM ADMIN
 		WHERE ADMIN_ID = #{my_id}
 		  AND PW = #{pw}
-	</select> -->
+	</select>
 </mapper>

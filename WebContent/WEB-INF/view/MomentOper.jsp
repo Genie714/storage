@@ -13,17 +13,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MomentOper.jsp</title>
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="<%=cp %>/js/util.js"></script>
 <script type="text/javascript" src="<%=cp %>/js/jquery-ui.js"></script>
+
+
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4833730b76b007bdcf9d4907fd005673"></script>
 
 <script type="text/javascript">
 
@@ -48,17 +69,29 @@
 				{
 					if (confirm("해당 모먼트의 참여를 취소하시겠습니까?"))
 					{
-						location.href = "momentopercancel.action?moment_id=" + $("#moment_id").val() + "&group_id=" + $("#group_id").val();
+						location.href = "momentcancel.action?moment_id=" + $("#moment_id").val() + "&group_id=" + $("#group_id").val();
 					}
 				}
 			});
 			
-			$(".btn-default").click(function()
+			$(".btn-primary").click(function()
 			{
 				$(location).attr("href", "group.action?group_id=" + $("#group_id").val());
 			});
 
 			
+		});
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			
+			container = document.getElementById("map");
+			mapCenter = new kakao.maps.LatLng(37.5565389, 126.9195136);
+			options = {
+				center : mapCenter,
+				level : 3,
+			};
+			map = new kakao.maps.Map(container, options);
+
 		});
 
 </script>
@@ -66,163 +99,138 @@
 </head>
 <body>
 
-<div class="panel title">
-	<h1>모먼트</h1>
-</div>
+<header>
+<c:import url="/header.action"></c:import>
+</header>
+<aside id="sidebar" class="sidebar">
+<c:import url="/aside.action"></c:import>
+</aside>
+<main id="main" class="main">
+	<div class="pagetitle">
+			<h1>모먼트 오퍼 조회</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="main.action">Main</a></li>
+					<li class="breadcrumb-item"><a href="group.action?group_id=<%=request.getParameter("group_id") %>">그룹</a></li>
+					<li class="breadcrumb-item active">모먼트 오퍼 조회</li>
+				</ol>
+			</nav>
+		</div>
+		<!-- End Page Title -->
 
 <!-- 메인 메뉴 영역 -->
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Home</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active">
-					<a href="group.action">
-						모먼트<span class="sr-only">(current)</span>
-					</a>
-				</li>
-			</ul>
-		</div><!-- .collapse .navbar-collapse -->
-		
-	</div><!-- .container-fluid -->
-</nav>
+<section class="section dashboard">
+	<div class="row">
+		<!-- main columns -->
+			<div class="col-lg-8">
 
-<div class="container">
-	<div class="panel-group">
-		<div class="panel panel-default">
-		
-			<div class="panel-heading" style="height: 100px;">
-				<span style="font-size: 17pt; font-weight: bold;" class="col-md-3">
-					모먼트 오퍼 조회
-				<p></p>
-				<p style="font-size: small; color: blue;">▷ 현재 ${dto.parti_num }명이 참여 중인 모먼트입니다.<br>
-				<b style="font-size: small; color: purple;">&nbsp&nbsp&nbsp 오퍼 마감 : ${dto.plan_end_date}</b>
-				</p>
-				<input type="hidden" id="parti_num" value="${dto.parti_num }">
-				</span>
-			</div>
+<div class="card text-center">
+	<form action="momentjoin.action?group_id=<%=request.getParameter("group_id") %>" method="post" id="myForm">
+			<div class="card-body">
+		<div class="card-title">
+			<h5 class="card-title">${momentList.moment_name }</h5>
+			<span>
+			▷ 현재 ${momentList.parti_num }명이 참여 중인 모먼트입니다.<br>
+			&nbsp;&nbsp;&nbsp; 오퍼 마감 : ${momentList.plan_end_date}
+			</span>
 			
+				
 			<div style="${countDate > 0  && countJoin < 1 ? 'display: inline;' : 'display: none;' }">
 				<span style="color: red; font-weight: bold;">해당 모먼트의 일시에 이미 일정이 존재합니다.<br>
 				신중하게 참여를 결정해주세요.</span>
 			</div>
-			
-			<div class="panel-body">
-				<form action="momentoperjoin.action?group_id=<%=request.getParameter("group_id") %>" method="post" id="myForm">
-					<table class="table">
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
-										모먼트명
-									</span>
-									<input type="text" id="moment_name" name="moment_name" class="form-control" readonly="readonly"
-									value="${dto.moment_name }" style="width: 1000px;">
+		</div>
+		<!-- end card-header -->
+								
+								<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1" style="width: 90px; margin-top: 10px;">모먼트명</span>
+								<input type="text" id="moment_name" name="moment_name" class="form-control" readonly="readonly" value="${momentList.moment_name }" style="margin-top: 10px;">
 								</div>
-							</td>
-						</tr>
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon2" style="width: 90px;">
 										일시
 									</span>
 									<input type="text" id="date_name" name="date_name" class="form-control" readonly="readonly"
-									value="${dto.date_name }" style="width: 1000px;">
+									value="${momentList.date_name }"  >
 								</div>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
+								<div class="input-group mb-3" role="group" >
+									<span class="input-group-text" id="basic-addon2" style="width: 90px;">
 										장소
 									</span>
 									<input type="text" id="place_name" name="place_name" class="form-control" readonly="readonly"
-									value="${dto.place_name }" style="width: 1000px;">
+									value="${momentList.place_name }">
 								</div>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
+								<div class="input-group mb-3" role="group">
+									<span class="input-group-text" id="basic-addon2" style="width: 90px;">
 										최소 인원
 									</span>
 									<input type="text" id="min_participant" name="min_participant" class="form-control" readonly="readonly"
-									value="${dto.min_participant }" style="width: 1000px;">
+									value="${momentList.min_participant }">
 								</div>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
+								<div class="input-group mb-3" role="group">
+									<span class="input-group-text" id="basic-addon2" style="width: 90px;">
 										최대 인원
 									</span>
 									<input type="text" id="max_participant" name="max_participant" class="form-control" readonly="readonly"
-									value="${dto.max_participant }" style="width: 1000px;">
+									value="${momentList.max_participant }">
 								</div>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px; font-weight: bold;">
+
+								<div class="input-group mb-3" role="group">
+									<span class="input-group-text" id="basic-addon2" style="width: 90px;">
 										참고사항
 									</span>
 									<textarea rows="10" cols="200" id="note" name="note" class="form-control"
-									 readonly="readonly" style="text-align: left;">
-									${dto.note }
-									</textarea>
+									 readonly="readonly" style="text-align: left;">${momentList.note }</textarea>
+
+								<input type="hidden" id="moment_id" name="moment_id" value="${momentList.moment_id }">
+								<input type="hidden" id="phase" name="phase" class="form-control" value="${momentList.phase }">
+								<input type="hidden" id="group_id" value="<%=request.getParameter("group_id") %>">
 								</div>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td style="text-align: center;">
 								<button type="button" class="btn btn-success" value="${countJoin }">
 								${countJoin > 0 ? "참여 취소" : "참여" }</button>
-								<button type="button" class="btn btn-default">목록으로</button>
-								<input type="hidden" id="moment_id" name="moment_id" value="${dto.moment_id }">
-								<input type="hidden" id="phase" name="phase" class="form-control" value="${dto.phase }">
-								<input type="hidden" id="group_id" value="<%=request.getParameter("group_id") %>">
-							</td>
-						</tr>
-					</table>
-				</form>
+								<button type="button" class="btn btn-primary">목록으로</button>
+							</div>
+						</form>
+					</div>
 			</div>
-		
+			<input type="hidden" id="parti_num" value="${momentList.parti_num }">
+			
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">현재 참여 중인 멤버 <span class="badge bg-primary badge-number" style="color: white;">${momentList.parti_num }</span></h5>
+							<div>
+								<ul>
+							<c:forEach var="parti" items="${partiList }">
+							<li> ${parti.participant_name }</li>
+							</c:forEach>
+								</ul>
+							</div>
+					</div>
+				
+				</div>
+				
+				<div class="card">
+						<div class="card-body pb-0">
+							<h5 class="card-title">
+								Place <span>| Map</span>
+							</h5>
+							<div id="map" style="min-height: 400px;" class="map"></div>
+						</div>
+					</div>
+			</div>
+			
 		</div>
-	</div>
-</div>
-
-
-
+</section>
+</main>
+<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/vendor/quill/quill.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
 
 </body>
 </html>

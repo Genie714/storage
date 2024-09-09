@@ -119,7 +119,7 @@
 										<div class="col-12">
 											<div class="form-check">
 												<input class="form-check-input" type="checkbox" name="admin"
-													value="0" id="admin"> 
+													value="1" id="admin"> 
 													<label class="form-check-label" for="admin">관리자</label>
 											</div>
 										</div>

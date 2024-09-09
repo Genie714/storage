@@ -60,6 +60,8 @@
 			$("#error").css("display", "none");
 			$("#date_edit").css("display", "none");
 			$("#place_edit").css("display", "none");
+			$("#doublePlan").css("display", "none");
+			
 			var startYear = $("year").val();
 			var today = new Date();
 			var todayYear = today.getFullYear();
@@ -156,12 +158,20 @@
 									var month = lists.find("month").text();
 									var day = lists.find("day").text();
 									var time = lists.find("time").text();
+									var doublePlan = lists.find("doublePlan").text();
 									
 									$("#date_id").val(date_id);
 									$("#year").val(year).attr("selected", "selected");
 									$("#month").val(month).attr("selected", "selected");
 									$("#day").val(day).attr("selected", "selected");
 									$("#time").val(time).attr("selected", "selected");
+									
+									if (parseInt(doublePlan) > 0)
+									{
+										$("#doublePlan").css("display", "inline");
+									}
+									else
+										$("#doublePlan").css("display", "none");
 									
 									$("#date_submit").attr("disabled", true);
 									$("#date_edit").css("display", "inline");
@@ -471,6 +481,14 @@
 								<input type="hidden" id="date_id" name="date_id">
 								<button type="button" class="dateSubmit" id="date_submit">추가</button>
 								<button type="button" class="dateEdit" id="date_edit" style="display: none;">수정</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span id="doublePlan" style="color: red; font-weight: bold; display: none;">
+									해당 모먼트의 일시에 이미 일정이 존재합니다.<br>
+									신중하게 참여를 결정해주세요.
+								</span>
 							</td>
 						</tr>
 						

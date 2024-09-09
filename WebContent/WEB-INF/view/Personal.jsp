@@ -49,7 +49,13 @@ if (user_id == null && admin == null) {
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
+			themeSystem : 'bootstrap5',
 			initialView : 'dayGridMonth',
+			headerToolbar : {
+				left : 'prev next today',
+				center : 'title',
+				right : 'dayGridMonth timeGridWeek timeGridDay'
+			},
 			events : 
 			[ 
 				// 모먼트 날짜 찍어주기
@@ -84,6 +90,7 @@ if (user_id == null && admin == null) {
 
 </head>
 <body>
+	
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top d-flex align-items-center">
 		<div class="d-flex align-items-center justify-content-between">
@@ -104,6 +111,8 @@ if (user_id == null && admin == null) {
 			</form>
 		</div>
 		<!-- End Search Bar -->
+		<c:import url="/notification.action"></c:import>
+		<%--
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<li class="nav-item d-block d-lg-none"><a
@@ -179,7 +188,7 @@ if (user_id == null && admin == null) {
 				<li class="nav-item dropdown pe-3"><a
 					class="nav-link nav-profile d-flex align-items-center pe-0"
 					href="#" data-bs-toggle="dropdown"> <img
-						src="assets/img/profile-img.jpg" alt="Profile"
+						src="assets/img/profile-img.png" alt="Profile"
 						class="rounded-circle"> <span
 						class="d-none d-md-block dropdown-toggle ps-2">${userinfo.user_name}</span>
 				</a> <!-- End Profile Iamge Icon -->
@@ -218,6 +227,7 @@ if (user_id == null && admin == null) {
 
 			</ul>
 		</nav>
+		 --%>
 		<!-- End Icons Navigation -->
 
 	</header>
@@ -317,7 +327,6 @@ if (user_id == null && admin == null) {
 			</li>
 			<!-- End Forms Nav -->	
 		</ul>
-
 	</aside>
 	<!-- End Sidebar-->
 
@@ -499,9 +508,9 @@ if (user_id == null && admin == null) {
 										<thead>
 											<tr>
 												<th scope="col">Num</th>
-												<th scope="col">GroupName</th>
+												<th scope="col">Name</th>
 												<th scope="col">Introduction</th>
-												<th scope="col">MemberCount</th>
+												<th scope="col">Count</th>
 												<th scope="col">Since</th>
 											</tr>
 										</thead>
@@ -670,27 +679,27 @@ if (user_id == null && admin == null) {
             }
           </script>
 								<div class="swiper-wrapper align-items-center">
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample1.jpg" alt=""
 											class="img-fluid" />
 									</div>
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample2.jpg" alt=""
 											class="img-fluid" />
 									</div>
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample3.jpg" alt=""
 											class="img-fluid" />
 									</div>
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample4.jpg" alt=""
-											class="img-fluid" />
+											class="img-fluid"/>
 									</div>
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample5.jpg" alt=""
 											class="img-fluid" />
 									</div>
-									<div class="swiper-slide">
+									<div class="swiper-slide" style="background-color: black">
 										<img src="<%=cp%>/images/sampleimage/sample6.jpg" alt=""
 											class="img-fluid" />
 									</div>
@@ -707,21 +716,7 @@ if (user_id == null && admin == null) {
 	</main>
 	<!-- End #main -->
 
-	<!-- ======= Footer ======= -->
-	<footer id="footer" class="footer">
-		<div class="copyright">
-			&copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights
-			Reserved
-		</div>
-		<div class="credits">
-			<!-- All the links in the footer should remain intact. -->
-			<!-- You can delete the links only if you purchased the pro version. -->
-			<!-- Licensing information: https://bootstrapmade.com/license/ -->
-			<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-			Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-		</div>
-	</footer>
-	<!-- End Footer -->
+	
 
 	<a href="#"
 		class="back-to-top d-flex align-items-center justify-content-center"><i

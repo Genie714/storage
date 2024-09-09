@@ -11,6 +11,10 @@
 	String month = request.getParameter("month");
 	String day = request.getParameter("day");
 	String time = request.getParameter("time");
+	String doublePlan = request.getParameter("doublePlan");
+	
+	if (doublePlan == "-1")
+		doublePlan = "0";
 	
 	if(day.equals(""))
 		day = "-1";
@@ -27,4 +31,5 @@
 	<month><%=month %></month>
 	<day><%=day %></day>
 	<time><%=time %></time>
+	<doublePlan><%=doublePlan %></doublePlan>
 </lists>
