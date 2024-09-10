@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class ManagerVoterDTO
 {
-	private String id, vote_id, voter_id, grmrvotee_id, voter_date;
-
+	private String id, vote_id, voter_id, selected_id, voter_date;
+	
 	public String getId()
 	{
 		return id;
@@ -36,14 +36,14 @@ public class ManagerVoterDTO
 		this.voter_id = voter_id;
 	}
 
-	public String getGrmrvotee_id()
+	public String getSelected_id()
 	{
-		return grmrvotee_id;
+		return selected_id;
 	}
 
-	public void setGrmrvotee_id(String grmrvotee_id)
+	public void setSelected_id(String selected_id)
 	{
-		this.grmrvotee_id = grmrvotee_id;
+		this.selected_id = selected_id;
 	}
 
 	public String getVoter_date()
@@ -55,8 +55,8 @@ public class ManagerVoterDTO
 	{
 		this.voter_date = voter_date;
 	}
-	
-	
+
+
 	// 임의 랜덤 ID
 	public void generateUniqueId()
 	{

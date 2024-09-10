@@ -148,7 +148,8 @@ String user_id = (String) session.getAttribute("user_id");
 								alt="">
 						</div>
 						<div class="swiper-slide">
-							<img src="<%=cp%>/images/skillsimage/bootstrap.png"
+							<img src="<%=cp%>/image
+							s/skillsimage/bootstrap.png"
 								class="img-fluid" alt="">
 						</div>
 						<div class="swiper-slide">

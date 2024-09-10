@@ -148,6 +148,7 @@
 						$("#sv_place_name_others").val($("#place_name_others").val());
 					
 					$("#sv_place_name").attr("readonly", "readonly");
+					$("#juso").css("display", "none");
 					$("#sv_place_name_others").attr("readonly", "readonly");
 				}
 			}
@@ -210,7 +211,7 @@
 				result = createNoteSurvey();
 				document.getElementById("result_note").innerHTML = result;
 				
-				if ($("#min_participant_response_id").val() > 0)
+				if ($("#note_response_id").val() > 0)
 				{
 					$("#sm_note").attr("disabled", "disabled");
 					$("#sm_note").text("제출 완료");
@@ -367,7 +368,7 @@
 				break;
 				case "ST03": $(location).attr("href", "momentsurveyresponseinsert.action?moment_id=" + $("#moment_id").val()
 						 	 + "&type_id=" + $(this).val() + "&response=" + $("#sv_place_name").val()
-						 	 + "&group_id=" + $("#group_id").val() +  + "&others=" + $("#sv_place_name_others").val());
+						 	 + "&group_id=" + $("#group_id").val() + "&others=" + $("#sv_place_name_others").val());
 					break;
 				case "ST04": $(location).attr("href", "momentsurveyresponseinsert.action?moment_id=" + $("#moment_id").val()
 						 	 + "&type_id=" + $(this).val() + "&response=" + $("#sv_min_participant").val()
@@ -391,18 +392,12 @@
 				
 		
 		// 투표 생성 이후
-		if ($("#moment_name_check").val() != "[]" && $("#moment_name_check").val() != "" && $("#moment_name_check").val() != null)
-		{
-			$("#result_moment_name").css("display", "none");
-			$("#vote_moment_name").css("display", "inline");
-		}
-		
 		if ($("#moment_name_voteNum").val() != "" && $("#moment_name_voteNum").val() > 0)
 		{
 			$("#voteResult_moment_name").attr("disabled", "disabled");
 			$("#voteResult_moment_name").text("투표 완료");
 			$("#" + $("#moment_name_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_moment_name']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
@@ -412,7 +407,7 @@
 			$("#voteResult_date_name").attr("disabled", "disabled");
 			$("#voteResult_date_name").text("투표 완료");
 			$("#" + $("#date_name_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_date_name']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
@@ -422,7 +417,7 @@
 			$("#voteResult_place_name").attr("disabled", "disabled");
 			$("#voteResult_place_name").text("투표 완료");
 			$("#" + $("#place_name_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_place_name']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
@@ -432,7 +427,7 @@
 			$("#voteResult_min_participant").attr("disabled", "disabled");
 			$("#voteResult_min_participant").text("투표 완료");
 			$("#" + $("#min_participant_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_min_participant']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
@@ -442,7 +437,7 @@
 			$("#voteResult_max_participant").attr("disabled", "disabled");
 			$("#voteResult_max_participant").text("투표 완료");
 			$("#" + $("#max_participant_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_max_participant']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
@@ -452,118 +447,150 @@
 			$("#voteResult_note").attr("disabled", "disabled");
 			$("#voteResult_note").text("투표 완료");
 			$("#" + $("#note_selectId").val()).attr("checked", "checked");
-			$("input:radio[name='vote_note']").click(function()
+			$("input:radio[name='vote_name']").click(function()
 			{
 				return false;
 			});
 		}
 		
-			if ($("#date_name_check").val() != "[]" && $("#date_name_check").val() != "" && $("#date_name_check").val() != null)
-			{
-				$("#result_date_name").css("display", "none");
-				$("#vote_date_name").css("display", "inline");
-			}
-			if ($("#place_name_check").val() != "[]" && $("#place_name_check").val() != "" && $("#place_name_check").val() != null)
-			{
-				$("#result_place_name").css("display", "none");
-				$("#vote_place_name").css("display", "inline");
-			}
-			if ($("#min_participant_check").val() != "[]" && $("#min_participant_check").val() != "" && $("#min_participant_check").val() != null)
-			{
-				$("#result_min_participant").css("display", "none");
-				$("#vote_min_participant").css("display", "inline");
-			}
-			if ($("#max_participant_check").val() != "[]" && $("#max_participant_check").val() != "" && $("#max_participant_check").val() != null)
-			{
-				$("#result_max_participant").css("display", "none");
-				$("#vote_max_participant").css("display", "inline");
-			}
-			if ($("#note_check").val() != "[]" && $("#note_check").val() != "" && $("#note_check").val() != null)
-			{
-				$("#result_note").css("display", "none");
-				$("#vote_note").css("display", "inline");
-			}
+		if ($("#moment_name_check").val() != "[]" && $("#moment_name_check").val() != "" && $("#moment_name_check").val() != null)
+		{
+			$("#result_moment_name").css("display", "none");
+			$("#vote_moment_name").css("display", "inline");
+		}
+		if ($("#date_name_check").val() != "[]" && $("#date_name_check").val() != "" && $("#date_name_check").val() != null)
+		{
+			$("#result_date_name").css("display", "none");
+			$("#vote_date_name").css("display", "inline");
+		}
+		if ($("#place_name_check").val() != "[]" && $("#place_name_check").val() != "" && $("#place_name_check").val() != null)
+		{
+			$("#result_place_name").css("display", "none");
+			$("#vote_place_name").css("display", "inline");
+		}
+		if ($("#min_participant_check").val() != "[]" && $("#min_participant_check").val() != "" && $("#min_participant_check").val() != null)
+		{
+			$("#result_min_participant").css("display", "none");
+			$("#vote_min_participant").css("display", "inline");
+		}
+		if ($("#max_participant_check").val() != "[]" && $("#max_participant_check").val() != "" && $("#max_participant_check").val() != null)
+		{
+			$("#result_max_participant").css("display", "none");
+			$("#vote_max_participant").css("display", "inline");
+		}
+		if ($("#note_check").val() != "[]" && $("#note_check").val() != "" && $("#note_check").val() != null)
+		{
+			$("#result_note").css("display", "none");
+			$("#vote_note").css("display", "inline");
+		}
+	
+		// 투표 끝나서 모먼트 요소 확정됐는지
+		if ($("#moment_name_complete").val() != "" && $("#moment_name_complete").val() != null && parseInt($("#moment_name_complete").val()) > 0)
+		{
+			$("#vote_moment_name").css("display", "none");
+			$("#result_moment_name").css("display", "none");
+			$("#cr_moment_name").text("확정");
+			$("#cr_moment_name").attr("disabled", "disabled");
+		}
+		if ($("#date_name_complete").val() != "" && $("#date_name_complete").val() != null && parseInt($("#date_name_complete").val()) > 0)
+		{
+			$("#vote_date_name").css("display", "none");
+			$("#result_date_name").css("display", "none");
+			$("#cr_date_name").text("확정");
+			$("#cr_date_name").attr("disabled", "disabled");
+		}
+		if ($("#place_name_complete").val() != "" && $("#place_name_complete").val() != null && parseInt($("#place_name_complete").val()) > 0)
+		{
+			$("#vote_place_name").css("display", "none");
+			$("#result_place_name").css("display", "none");
+			$("#cr_place_name").text("확정");
+			$("#cr_place_name").attr("disabled", "disabled");
+		}
+		if ($("#min_participant_complete").val() != "" && $("#min_participant_complete").val() != null && parseInt($("#min_participant_complete").val()) > 0)
+		{
+			$("#vote_min_participant").css("display", "none");
+			$("#result_min_participant").css("display", "none");
+			$("#cr_min_participant").text("확정");
+			$("#cr_min_participant").attr("disabled", "disabled");
+		}
+		if ($("#max_participant_complete").val() != "" && $("#max_participant_complete").val() != null && parseInt($("#max_participant_complete").val()) > 0)
+		{
+			$("#vote_max_participant").css("display", "none");
+			$("#result_max_participant").css("display", "none");
+			$("#cr_max_participant").text("확정");
+			$("#cr_max_participant").attr("disabled", "disabled");
+		}
+		if ($("#note_complete").val() != "" && $("#note_complete").val() != null && parseInt($("#note_complete").val()) > 0)
+		{
+			$("#vote_note").css("display", "none");
+			$("#result_note").css("display", "none");
+			$("#cr_note").text("확정");
+			$("#cr_note").attr("disabled", "disabled");
+		}
 		
-			if ($("#moment_name_complete").val() != "" || $("#moment_name_complete").val() != null)
+		$(".btn-vote").click(function()
+		{
+			if ($("input:radio[name='vote_name']:checked").val() == "" || $("input:radio[name='vote_name']:checked").val() == null)
 			{
-				$("#vote_moment_name").css("display", "none");
+				alert("선택 후 투표 제출이 가능합니다.");
+				return;
 			}
-			if ($("#date_name_complete").val() != "" || $("#date_name_complete").val() != null)
+			else if (confirm("투표를 완료하시겠습니까? 제출 후 수정이 불가능합니다."))
 			{
-				$("#vote_date_name").css("display", "none");
-			}
-			if ($("#place_name_complete").val() != "" || $("#place_name_complete").val() != null)
-			{
-				$("#vote_place_name").css("display", "none");
-			}
-			if ($("#min_participant_complete").val() != "" || $("#min_participant_complete").val() != null)
-			{
-				$("#vote_min_participant").css("display", "none");
-			}
-			if ($("#max_participant_complete").val() != "" || $("#max_participant_complete").val() != null)
-			{
-				$("#vote_max_participant").css("display", "none");
-			}
-			if ($("#note_complete").val() != "" || $("#note_complete").val() != null)
-			{
-				$("#vote_note").css("display", "none");
-			}
-			
-			$(".btn-vote").click(function()
-			{
-				if ($("input:radio[name='vote_moment_name']:checked").val() == "" || $("input:radio[name='vote_moment_name']:checked").val() == null)
+				switch ($(this).val())
 				{
-					alert("선택 후 투표 제출이 가능합니다.");
-					return;
-				}
-				else if (confirm("투표를 완료하시겠습니까? 제출 후 수정이 불가능합니다."))
-				{
-					switch ($(this).val())
-					{
-					case "ST01": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_moment_name']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#moment_name_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					case "ST02": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_date_name']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#date_name_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					case "ST03": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_place_name']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#place_name_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					case "ST04": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_min_participant']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#min_participant_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					case "ST05": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_max_participant']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#max_participant_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					case "ST06": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
-								 + "&survey_response_id=" + $("input:radio[name='vote_note']:checked").val()
-								 + "&type_id=" + $(this).val() + "&survey_id=" + $("#note_svId").val()
-							 	 + "&group_id=" + $("#group_id").val());
-						break;
-					}
-					
-					alert("제출이 완료되었습니다.");
-					
+				case "ST01": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#moment_name_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
+				case "ST02": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#date_name_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
+				case "ST03": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#place_name_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
+				case "ST04": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#min_participant_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
+				case "ST05": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#max_participant_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
+				case "ST06": $(location).attr("href", "momentvoteresponseinsert.action?moment_id=" + $("#moment_id").val()
+							 + "&survey_response_id=" + $("input:radio[name='vote_name']:checked").val()
+							 + "&type_id=" + $(this).val() + "&survey_id=" + $("#note_svId").val()
+						 	 + "&group_id=" + $("#group_id").val());
+					break;
 				}
 				
-			});
+				alert("제출이 완료되었습니다.");
+				
+			}
 			
-			
-			$(".btn-default").click(function()
-			{
-				$(location).attr("href", "group.action?group_id=" + $("#group_id").val());
-			});
+		});
 
+		$("#infoChange").click(function()
+		{
+			if (confirm("인포 페이지로 전환하시겠습니까? 전환 후 모먼트 요소 수정이 불가능합니다."))
+			{
+				$(location).attr("href", "momentinfochange.action?moment_id=" + $("#moment_id").val() + "&group_id=" + $("#group_id").val());
+			}
+			
+		});
+		
+		$(".btn-default").click(function()
+		{
+			$(location).attr("href", "group.action?group_id=" + $("#group_id").val());
+		});
+		
 			
 		});
 		
@@ -618,7 +645,8 @@
 		{
 			result = "<td><h4 style='font-weight: bold;'>내 답변</h4>";
 			result += "<input type='text' id='sv_place_name' name='sv_place_name' class='form-control'";
-			result += "placeholder='장소 입력' style='width: 970px;'>";
+			result += "placeholder='주소 찾기 버튼을 눌러 주소를 검색해주세요.' style='width: 970px;' readonly='readonly'>";
+			result += "<br><button type='button' onclick='getAddr()' id='juso'>주소 찾기</button>";
 			result += "<br><h4 style='font-weight: bold;'>기타 의견</h4>";
 			result += "<input type='text' id='sv_place_name_others' placeholder='ex) 인천 사람 배려 좀;;' name='sv_place_name_others' class='form-control'";
 			result += "style='width: 970px;'>";
@@ -672,6 +700,26 @@
 		}
 		
 
+</script>
+
+<!-- 주소 검색, 지도 표시 기능 구현 -->
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+
+    function getAddr()
+    {
+        new daum.Postcode(
+        {
+            oncomplete: function(data) 
+            {
+                var addr = data.address;
+                
+                // 받아온 주소 넣기 
+                document.getElementById("sv_place_name").value = addr;
+                
+            }
+        }).open();
+    }
 </script>
 
 </head>
@@ -760,15 +808,21 @@
 						<tr id="vote_moment_name" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>모먼트명을 골라주세요. (택 1)</h4>
+								<c:set var="moment"  value="${voteReponse1 }" />
+								<c:if test="${not empty moment }">
 								<c:forEach var="selection" items="${voteReponse1 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_moment_name" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="moment_name_svId">
-									<input type="hidden" id="moment_name_voteNum" class="voteNum" value="${voteResponseNum1 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="moment_name_voteNum" class="voteNum" value="${voteResponseNum1 }">
 								<input type="hidden" value="${voteReponse1 }" id="moment_name_check">
 								<input type="hidden" value="${voteSelectId1 }" id="moment_name_selectId">
 								<input type="hidden" value="${check1 }" id="moment_name_complete">
@@ -806,15 +860,23 @@
 						<tr id="vote_date_name" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>일시를 골라주세요. (택 1)</h4>
+								<c:set var="date"  value="${voteReponse2 }" />
+								<c:if test="${not empty date }">
 								<c:forEach var="selection" items="${voteReponse2 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_date_name" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.impossible_date }" 
+									style="${selection.impossible_date == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="date_name_svId">
-									<input type="hidden" id="date_name_voteNum" class="voteNum" value="${voteResponseNum2 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="date_name_voteNum" class="voteNum" value="${voteResponseNum2 }">
 								<input type="hidden" value="${voteReponse2 }" id="date_name_check">
 								<input type="hidden" value="${voteSelectId2 }" id="date_name_selectId">
 								<input type="hidden" value="${check2 }" id="date_name_complete">
@@ -850,15 +912,21 @@
 						<tr id="vote_place_name" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>장소를 골라주세요. (택 1)</h4>
+								<c:set var="place"  value="${voteReponse3 }" />
+								<c:if test="${not empty place }">
 								<c:forEach var="selection" items="${voteReponse3 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_place_name" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="place_name_svId">
-									<input type="hidden" id="place_name_voteNum" class="voteNum" value="${voteResponseNum3 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="place_name_voteNum" class="voteNum" value="${voteResponseNum3 }">
 								<input type="hidden" value="${voteReponse3 }" id="place_name_check">
 								<input type="hidden" value="${voteSelectId3 }" id="place_name_selectId">
 								<input type="hidden" value="${check3 }" id="place_name_complete">
@@ -894,15 +962,21 @@
 						<tr id="vote_min_participant" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>최소 인원을 골라주세요. (택 1)</h4>
+								<c:set var="min"  value="${voteReponse4 }" />
+								<c:if test="${not empty min }">
 								<c:forEach var="selection" items="${voteReponse4 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_min_participant" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="min_participant_svId">
-									<input type="hidden" id="min_participant_voteNum" class="voteNum" value="${voteResponseNum4 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="min_participant_voteNum" class="voteNum" value="${voteResponseNum4 }">
 								<input type="hidden" value="${voteReponse4 }" id="min_participant_check">
 								<input type="hidden" value="${voteSelectId4 }" id="min_participant_selectId">
 								<input type="hidden" value="${check4 }" id="min_participant_complete">
@@ -938,15 +1012,21 @@
 						<tr id="vote_max_participant" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>최대 인원을 골라주세요. (택 1)</h4>
+								<c:set var="max"  value="${voteReponse5 }" />
+								<c:if test="${not empty max }">
 								<c:forEach var="selection" items="${voteReponse5 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_max_participant" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="max_participant_svId">
-									<input type="hidden" id="max_participant_voteNum" class="voteNum" value="${voteResponseNum5 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="max_participant_voteNum" class="voteNum" value="${voteResponseNum5 }">
 								<input type="hidden" value="${voteReponse5 }" id="max_participant_check">
 								<input type="hidden" value="${voteSelectId5 }" id="max_participant_selectId">
 								<input type="hidden" value="${check5 }" id="max_participant_complete">
@@ -983,15 +1063,21 @@
 						<tr id="vote_note" style="display: none;">
 							<td>
 							<h4 style='font-weight: bold;'>참고사항을 골라주세요. (택 1)</h4>
+								<c:set var="note"  value="${voteReponse6 }" />
+								<c:if test="${not empty note }">
 								<c:forEach var="selection" items="${voteReponse6 }">
 									<label style="${selection.response == null ? 'display: none;' : 'display: inline;'}" 
 									for="${selection.survey_response_id }">- ${selection.response }</label>
 									<input type="radio" value="${selection.survey_response_id }" id="${selection.survey_response_id }"
-									name="vote_note" style="width: 972px; 
-									${selection.response == null ? 'display: none;' : 'display: inline;'}"><br>
+									name="vote_name" style="width: 972px; 
+									${selection.response == null ? 'display: none;' : 'display: inline;'}">
+									<input type="text" readonly="readonly" value="${selection.others }" 
+									style="${selection.others == nulll ? 'display: none;' : 'display: inline;'}">
+									<br>
 									<input type="hidden" value="${selection.survey_id }" id="note_svId">
-									<input type="hidden" id="note_voteNum" class="voteNum" value="${voteResponseNum6 }">
 								</c:forEach>
+								</c:if>
+								<input type="hidden" id="note_voteNum" class="voteNum" value="${voteResponseNum6 }">
 								<input type="hidden" value="${voteReponse6 }" id="note_check">
 								<input type="hidden" value="${voteSelectId6 }" id="note_selectId">
 								<input type="hidden" value="${check6 }" id="note_complete">
@@ -1007,6 +1093,8 @@
 							<td style="text-align: center;">
 								<button type="button" id="countJoin" class="btn btn-success" value="${countJoin }">
 								${countJoin > 0 ? "참여 취소" : "참여" }</button>
+								<button type="button" id="infoChange" class="btn btn-warning" 
+								style="${infoCheck == 1 ? 'display: inline' : 'display: none'}">인포 전환</button>
 								<button type="button" class="btn btn-default">목록으로</button>
 								<input type="hidden" id="moment_id" name="moment_id" value="${momentList.moment_id }">
 								<input type="hidden" id="phase" name="phase" value="${momentList.phase }">
@@ -1021,8 +1109,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 
 </body>

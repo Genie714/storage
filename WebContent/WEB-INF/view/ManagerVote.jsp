@@ -60,48 +60,53 @@ body
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-	
-	/* 
-	$(document).ready(function()
-	{
-		$(".voteFin").click(function()
-		{
-			if (confirm("투표를 완료하시겠습니까?"))
-			{
-				$(location).attr("href", "managervotefin.action?group_id=" + $(this).val());
-			}
-			
-		}); 
-		
-	}); 
-	*/
-	
+
+    $(document).ready(function() 
+    {
+        $(".voteFin").click(function() 
+        {
+            var selectedMatch_id = $("input[name='selectedMatch_id']:checked").val();
+            
+            if (!selectedMatch_id) 
+            {
+                alert("투표할 후보를 선택해주세요.");
+                return;
+            }
+            
+            $("form").submit();
+        
+        });
+    });
 </script>
 </head>
 <body>
 
 <div class="container">
-    <h1 class="title">매니저 임명 투표</h1>
-</div>
+    <h2>매니저 임명 후보리스트</h2>
+    
+    <p>Group ID: ${group_id}</p>
+	<p>Vote ID: ${vote_id}</p>
+	<p>Match ID: ${match_id}</p>
 
-<form role="form" action="managervotefin.action" method="post">
-	
-	<input type="text" name="groupId" value="${group_id}" />
-	
-    <div class="list-container">
-        <h2 class="list-title">매니저 임명 후보리스트</h2>
-        <table class="list-table">
+    <form action="managervotefin.action" method="post">
+        <input type="hidden" name="group_id" value="${group_id}" />
+        <input type="hidden" name="vote_id" value="${vote_id}" />
+        <input type="hidden" name="gmvote_id" value="${vote_id}"/>
+        <input type="hidden" name="match_id" value="${match_id}" />
+        <input type="hidden" name="voter_id" value="${match_id}" />
+
+        <table>
             <c:forEach var="candi" items="${candidates}">
                 <tr>
                     <td>
-                        <input type="radio" name="candidateMatchId" value="${candi.match_id}"/> ${candi.name}
-                    </td>		
+                        <input type="radio" name="selectedMatch_id" value="${candi.match_id}" /> ${candi.name}(${candi.match_id})
+                    </td>
                 </tr>
             </c:forEach>
         </table>
-    </div>
-    <button type="submit" class="voteFin">투표완료</button>
-</form>
+        <button type="button" class="voteFin">투표 완료</button>
+    </form>
+</div>
 
 </body>
 </html>

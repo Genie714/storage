@@ -5,7 +5,7 @@
 <mapper namespace="com.test.prj.IManagerDAO">
 
 	<select id="searchId" resultType="com.test.prj.GroupMemberDTO">
-		SELECT H.GROUP_ID, H.ID AS MATCH_ID
+		SELECT H.ID AS MATCH_ID
 		FROM TBL_USER T
 		JOIN GR_MATCH H
 		ON T.ID = H.USER_ID
@@ -15,10 +15,11 @@
 		ON H.ID = I.RECEPTION_ID
 		LEFT JOIN GR_SIGNUP N
 		ON H.ID = N.MEMBER_ID
-		WHERE T.ID = #{group_id}
+		WHERE T.ID = #{user_id}
+		AND H.GROUP_ID = #{group_id}
 		AND (P.SIGNUP_WHETHER_ID = 'SW01'
 		OR I.WHETHER_ID = 'SW01'
-		OR N.WHETHER_ID = 'SW01')
+		OR N.WHETHER_ID = 'SW01');
     </select>
 	
 	<select id="managerCount" resultType="java.lang.Integer">
@@ -83,14 +84,22 @@
 		ORDER BY I.NAME
 	</select>
 	
-	<select id="searchGrmrVoteeId" resultType="com.test.prj.GroupMemberDTO">
-		SELECT E.ID
+	<select id="searchSelectedId" resultType="java.lang.String">
+		SELECT E.ID AS SELECTED_ID
 		FROM GR_MATCH H
 		RIGHT JOIN GR_MANAGER_VOTEE E
 		ON H.ID = E.VOTEE_ID
+		JOIN GR_MANAGER_VOTE V
+		ON E.VOTE_ID = V.ID
 		WHERE H.GROUP_ID = #{group_id}
-		AND H.ID = #{match_id}
+		AND H.ID = #{selectedMatch_id}
+		AND V.ID = #{gmvote_id}
 	</select>
+	
+	<select id="nextVoteId" resultType="String">
+        SELECT 'MV0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1) AS MAXID
+     	FROM GR_MANAGER_VOTE
+   </select>
 	
 	<insert id="voteAdd">
 		INSERT INTO GR_MANAGER_VOTE(ID, GROUP_ID, START_DATE)
@@ -103,8 +112,8 @@
 	</insert>
 
 	<insert id="voterAdd">
-		INSERT INTO GR_MANAGER_VOTER(ID, VOTE_ID, VOTER_ID, VOTEE_ID, VOTER_DATE)
- 		VALUES('VR03', #{vote_id}, #{voter_id}, #{grmrvotee_id}, '2024-09-05 18:30:24')
+		INSERT INTO GR_MANAGER_VOTER(ID, VOTE_ID, VOTER_ID, SELECTED_ID, VOTER_DATE)
+ 		VALUES(#{id}, #{vote_id}, #{voter_id}, #{selected_id}, SYSDATE)
 	</insert>
 	
 </mapper>

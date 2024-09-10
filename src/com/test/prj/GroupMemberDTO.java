@@ -2,7 +2,7 @@ package com.test.prj;
 
 public class GroupMemberDTO
 {
-	private String group_id, match_id, name;
+	private String group_id, match_id, selectedMatch_id, gmvote_id, name;
 
 	public String getGroup_id()
 	{
@@ -24,6 +24,26 @@ public class GroupMemberDTO
 		this.match_id = match_id;
 	}
 
+	public String getSelectedMatch_id()
+	{
+		return selectedMatch_id;
+	}
+
+	public void setSelectedMatch_id(String selectedMatch_id)
+	{
+		this.selectedMatch_id = selectedMatch_id;
+	}
+
+	public String getGmvote_id()
+	{
+		return gmvote_id;
+	}
+
+	public void setGmvote_id(String gmvote_id)
+	{
+		this.gmvote_id = gmvote_id;
+	}
+
 	public String getName()
 	{
 		return name;
@@ -33,5 +53,5 @@ public class GroupMemberDTO
 	{
 		this.name = name;
 	}
-
+	
 }

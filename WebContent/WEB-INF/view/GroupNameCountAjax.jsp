@@ -4,7 +4,7 @@
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 	
-	// NameCountAjax.jsp
+	// GroupNameCountAjax.jsp
 	
 	String count = request.getParameter("count");
 	

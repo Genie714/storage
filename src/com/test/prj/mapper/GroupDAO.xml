@@ -5,93 +5,251 @@
 <mapper namespace="com.test.prj.IGroupDAO">
 
    <select id="list" resultType="com.test.prj.GroupDTO">
-      SELECT G.ID, GC.NAME, GC.INTRODUCTION, GC.ROOT, G.OPEN_DATE
-     , (SELECT COUNT(*)
-        FROM GR_MATCH
-        WHERE GROUP_ID= G.ID) AS COUNT
-	 FROM TBL_GROUP G JOIN GR_CREATION GC
-     ON G.CREATION_ID = GC.ID
+ 		SELECT G.ID, GC.NAME, GC.INTRODUCTION, GC.ROOT, G.OPEN_DATE
+		FROM TBL_GROUP G JOIN GR_CREATION GC
+    	ON G.CREATION_ID = GC.ID
+   </select>
+   
+   <select id="groupMemberCount" resultType="String">
+		SELECT COUNT(H.ID) AS COUNT
+		FROM GR_MATCH H
+		LEFT JOIN GR_PREINVITE P
+		ON H.ID = P.MEMBER_ID
+		LEFT JOIN GR_INVITE I
+		ON H.ID = I.RECEPTION_ID
+		LEFT JOIN GR_SIGNUP N
+		ON H.ID = N.MEMBER_ID
+		WHERE H.GROUP_ID = #{group_id}
+		AND (P.SIGNUP_WHETHER_ID = 'SW01'
+		OR I.WHETHER_ID = 'SW01'
+		OR N.WHETHER_ID = 'SW01')
    </select>
 
    <select id="count" resultType="java.lang.Integer">
-      SELECT COUNT(*) AS COUNT
-      FROM TBL_GROUP
+  		SELECT COUNT(*) AS COUNT
+    	FROM TBL_GROUP
    </select>
    
-   <select id="nextGCId" resultType="String">
-   	  SELECT 'GT0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
-	  FROM GR_CREATION
+   <select id="nextGTId" resultType="String">
+		SELECT 'GT0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1) AS MAXID
+		FROM GR_CREATION
    </select>
    
    <insert id="creationAdd">
-   	  INSERT INTO GR_CREATION(ID, USER_ID, NAME, INTRODUCTION, ROOT)
-   	  VALUES(#{id}, #{user_id}, #{name}, #{introduction}, #{root})
+        INSERT INTO GR_CREATION(ID, USER_ID, NAME, INTRODUCTION, ROOT)
+        VALUES(#{id}, #{user_id}, #{name}, #{introduction}, #{root})
    </insert>
    
    <select id="creationList" resultType="com.test.prj.GroupDTO">
-   	  SELECT C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT, C.CREATION_DATE, COUNT(*) AS COUNT
-	  FROM GR_CREATION C LEFT JOIN GR_PREINVITE P
-	    ON C.ID = P.CREATE_ID
-	    AND P.SIGNUP_WHETHER_ID = 'SW01'
-	  GROUP BY 
-	    C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT, C.CREATION_DATE, P.CREATE_ID
+		SELECT C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT,
+		C.CREATION_DATE, COUNT(*) AS COUNT, C.CREATION_DATE + 7 AS END_DATE
+		FROM GR_CREATION C LEFT JOIN GR_PREINVITE P
+		ON C.ID = P.CREATE_ID
+		AND P.SIGNUP_WHETHER_ID = 'SW01'
+		GROUP BY
+		C.ID, C.USER_ID, C.NAME, C.INTRODUCTION, C.ROOT, C.CREATION_DATE,
+		P.CREATE_ID
    </select>
    
    <select id="creationCount" resultType="java.lang.Integer">
-   	  SELECT COUNT(*) AS COUNT
-	  FROM GR_CREATION
+		SELECT COUNT(*)
+		FROM GR_CREATIONVIEW
+		WHERE COUNT &lt; 5
+		AND END_DATE > SYSDATE
    </select>
    
    <select id="questionForm" resultType="com.test.prj.GroupDTO">
-   	  SELECT ID, CONTENT
-	  FROM GR_SIGNUP_QUESTION
-	  WHERE GROUP_ID = #{group_id}
+   		SELECT ID, CONTENT
+   		FROM GR_SIGNUP_QUESTION
+    	WHERE GROUP_ID = #{group_id}
    </select>
    
    <select id="nextGMId" resultType="String">
-   	  SELECT 'GM0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
-	  FROM GR_MATCH
+        SELECT 'GM0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1) AS MAXID
+     	FROM GR_MATCH
    </select>
    
    <insert id="matchAdd">
-     INSERT INTO GR_MATCH(ID, USER_ID, GROUP_ID, TYPE_ID)
-	 VALUES(#{match_id}, #{user_id}, #{group_id}, #{type_id})
+     	INSERT INTO GR_MATCH(ID, USER_ID, GROUP_ID, TYPE_ID)
+   	 	VALUES(#{match_id}, #{user_id}, #{group_id}, #{type_id})
    </insert>
    
    <select id="nextSUId" resultType="String">
-   	  SELECT 'SU0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
-	  FROM GR_SIGNUP
+        SELECT 'SU0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1) AS MAXID
+     	FROM GR_SIGNUP
    </select>
    
    <insert id="signupAdd">
-   	 INSERT INTO GR_SIGNUP(ID, MEMBER_ID, GROUP_ID, SIGNUP_DATE, ALLOW_DATE, WHETHER_ID, ALARM_CHECK_DATE)
-	 VALUES(#{signup_id}, #{match_id}, #{group_id}, SYSDATE, NULL, NULL, NULL)
+      	INSERT INTO GR_SIGNUP(ID, MEMBER_ID, GROUP_ID, SIGNUP_DATE, ALLOW_DATE, WHETHER_ID, ALARM_CHECK_DATE)
+    	VALUES(#{signup_id}, #{match_id}, #{group_id}, SYSDATE, NULL, NULL, NULL)
    </insert>
- 	
- 	  
+    
+      
    <select id="nextSAId" resultType="String">
-   	  SELECT 'SA0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
-	  FROM GR_SIGNUP_ANSWER
+        SELECT 'SA0' || TO_CHAR(MAX(TO_NUMBER(SUBSTR(ID, 3,4)))+1)  AS MAXID
+     	FROM GR_SIGNUP_ANSWER
    </select>
    
    <insert id="answerAdd">
-   	  INSERT INTO GR_SIGNUP_ANSWER(ID, SIGNUP_ID, QUESTION_ID, CONTENT, ANSWER_DATE) 
-   	  VALUES(#{answer_id}, #{signup_id}, #{question_id}, #{content}, SYSDATE)
+        INSERT INTO GR_SIGNUP_ANSWER(ID, SIGNUP_ID, QUESTION_ID, CONTENT, ANSWER_DATE) 
+        VALUES(#{answer_id}, #{signup_id}, #{question_id}, #{content}, SYSDATE)
    </insert>
    
+   <select id="GroupMemberGMId" resultType="String">
+		SELECT H.ID AS MATCH_ID
+		FROM TBL_USER T
+		JOIN GR_MATCH H
+		ON T.ID = H.USER_ID
+		LEFT JOIN GR_PREINVITE P
+		ON H.ID = P.MEMBER_ID
+		LEFT JOIN GR_INVITE I
+		ON H.ID = I.RECEPTION_ID
+		LEFT JOIN GR_SIGNUP N
+		ON H.ID = N.MEMBER_ID
+		WHERE T.ID = #{user_id}
+		AND H.GROUP_ID = #{group_id}
+		AND (P.SIGNUP_WHETHER_ID = 'SW01'
+		OR I.WHETHER_ID = 'SW01'
+		OR N.WHETHER_ID = 'SW01')
+   </select>
+   
+   <select id="searchGRId" resultType="String">
+    	SELECT GROUP_ID
+      	FROM GR_MATCH
+      	WHERE ID = #{match_id}
+   </select>
+   
+   <select id="activeGroupId" resultType="com.test.prj.GroupDTO">
+		WITH RANKEDRESULTS AS
+		(SELECT
+		GROUP_ID,
+		COUNT,
+		RANK() OVER (ORDER BY COUNT DESC) AS RANK
+		FROM GR_MAXINFOGROUPVIEW)
+		SELECT GROUP_ID, COUNT
+		FROM RANKEDRESULTS
+		WHERE RANK = 1
+   </select>
+   
+   <select id="groupInformation" resultType="com.test.prj.GroupDTO">
+		SELECT G.ID, G.OPEN_DATE, C.NAME, C.INTRODUCTION, C.ROOT
+		FROM TBL_GROUP G JOIN GR_CREATION C
+		ON C.ID = G.CREATION_ID
+		WHERE G.ID = #{group_id}
+   </select>
+   
+   <select id="recentList" resultType="com.test.prj.GroupDTO">
+		SELECT G.ID, G.OPEN_DATE, C.NAME, C.INTRODUCTION, C.ROOT
+		FROM TBL_GROUP G JOIN GR_CREATION C
+		ON C.ID = G.CREATION_ID
+		WHERE OPEN_DATE >= SYSDATE - 7
+   </select>
+   
+   <select id="largeGroupId" resultType="com.test.prj.GroupDTO">
+		WITH RANKEDRESULTS AS
+		(SELECT
+		GROUP_ID,
+		COUNT,
+		RANK() OVER (ORDER BY COUNT DESC) AS RANK
+		FROM GR_MAXMEMBERGROUPVIEW)
+		SELECT GROUP_ID, COUNT
+		FROM RANKEDRESULTS
+		WHERE RANK = 1
+   </select>
+   
+   <select id="groupNameCount" resultType="int">
+		SELECT COUNT(*) AS COUNT
+		FROM TBL_GROUP G JOIN GR_CREATION C
+		ON C.ID = G.CREATION_ID
+		WHERE NAME = #{name}
+   </select>
+   
+   <select id="searchGroupResult" resultType="com.test.prj.GroupDTO">
+		SELECT G.ID, C.NAME, C.INTRODUCTION, C.ROOT, G.OPEN_DATE
+		FROM TBL_GROUP G JOIN GR_CREATION C
+		ON C.ID = G.CREATION_ID
+		WHERE NAME = #{name}
+   </select>
+   
+   <select id="creationGroupCount" resultType="int">
+		SELECT COUNT(*)
+		FROM GR_CREATIONVIEW
+		WHERE COUNT &lt; 5
+		AND END_DATE > SYSDATE
+		AND USER_ID = #{user_id}
+   </select>
+   
+   <select id="managerCount" resultType="java.lang.Integer">
+		SELECT COUNT(H.ID) AS COUNT
+		FROM GR_MATCH H
+		RIGHT JOIN GR_MANAGER R
+		ON H.ID = R.MATCH_ID
+		LEFT JOIN GR_PREINVITE P
+		ON H.ID = P.MEMBER_ID
+		LEFT JOIN GR_INVITE I
+		ON H.ID = I.RECEPTION_ID
+		LEFT JOIN GR_SIGNUP N
+		ON H.ID = N.MEMBER_ID
+		WHERE H.GROUP_ID = #{group_id}
+		AND (P.SIGNUP_WHETHER_ID = 'SW01'
+		OR I.WHETHER_ID = 'SW01'
+		OR N.WHETHER_ID = 'SW01')
+	</select>
+  
+   <select id="managerList" resultType="com.test.prj.GroupDTO">
+		SELECT I.NAME AS NAME, H.ID AS MATCH_ID
+		FROM GR_MANAGER R
+		LEFT JOIN GR_MATCH H
+		ON R.MATCH_ID = H.ID
+		LEFT JOIN GR_PREINVITE P
+		ON H.ID = P.MEMBER_ID
+		LEFT JOIN GR_INVITE I
+		ON H.ID = I.RECEPTION_ID
+		LEFT JOIN GR_SIGNUP N
+		ON H.ID = N.MEMBER_ID
+		JOIN TBL_USER U
+		ON H.USER_ID = U.ID
+		JOIN US_INFORMATION I
+		ON U.ID = I.USER_ID
+		WHERE H.GROUP_ID = #{group_id}
+		AND (P.SIGNUP_WHETHER_ID = 'SW01'
+		OR I.WHETHER_ID = 'SW01'
+		OR N.WHETHER_ID = 'SW01')
+		ORDER BY I.NAME
+	</select>
+  	
+  	<select id="generalMemberList" resultType="com.test.prj.GroupDTO">
+		SELECT I.NAME AS NAME
+		FROM GR_MANAGER R
+		RIGHT JOIN GR_MATCH H
+		ON R.MATCH_ID = H.ID
+		LEFT JOIN GR_PREINVITE P
+		ON H.ID = P.MEMBER_ID
+		LEFT JOIN GR_INVITE I
+		ON H.ID = I.RECEPTION_ID
+		LEFT JOIN GR_SIGNUP N
+		ON H.ID = N.MEMBER_ID
+		JOIN TBL_USER U
+		ON H.USER_ID = U.ID
+		JOIN US_INFORMATION I
+		ON U.ID = I.USER_ID
+		WHERE R.MATCH_ID IS NULL
+		AND H.GROUP_ID = #{group_id}
+		AND (P.SIGNUP_WHETHER_ID = 'SW01'
+		OR I.WHETHER_ID = 'SW01'
+		OR N.WHETHER_ID = 'SW01')
+		ORDER BY I.NAME
+	</select>
+	
+   	<insert id="preinviteAdd">
+		INSERT INTO GR_PREINVITE(ID, MEMBER_ID, CREATE_ID, ACCEPTION_DATE, SIGNUP_WHETHER_ID, ALARM_CHECK_DATE)
+		VALUES(#{id}, #{reception_id}, #{create_id}, SYSDATE, #{whether_id}, NULL)
+   	</insert>
+   
+   	<insert id="inviteAdd">
+		INSERT INTO GR_INVITE(ID, RECEPTION_ID, OUTGOING_ID, GROUP_ID, ACCEPTION_DATE, WHETHER_ID, ALARM_CHECK_DATE)
+		VALUES(#{id}, #{reception_id}, #{outgoing_id}, #{group_id}, SYSDATE, #{whether_id}, NULL)
+   	</insert>
 
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
 

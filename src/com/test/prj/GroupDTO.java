@@ -6,8 +6,28 @@ public class GroupDTO
 {
 
 	private String id, creation_id, open_date, name, introduction, root, count, user_id
-				 , creation_date, group_id, content, type_id, match_id, signup_id, answer_id, question_id;
+				 , creation_date, group_id, content, type_id, match_id, signup_id, answer_id, question_id, memberCount, end_date;
 	
+	public String getEnd_date()
+	{
+		return end_date;
+	}
+
+	public void setEnd_date(String end_date)
+	{
+		this.end_date = end_date;
+	}
+
+	public String getMemberCount()
+	{
+		return memberCount;
+	}
+
+	public void setMemberCount(String memberCount)
+	{
+		this.memberCount = memberCount;
+	}
+
 	private String[] answers;
 	private String[] questionIds;
 

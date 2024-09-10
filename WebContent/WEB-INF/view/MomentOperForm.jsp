@@ -195,27 +195,38 @@
 				$("#date_id").val("");
 			});
 			
-			/*
+			
 			$(".placeSelect").click(function()
 			{
 				 
-				var n = "";
-				if ($(this).val() == 1)
+				if ($(this).val() == 2)
 				{
-					n = "";
+					$("#juso").css("display", "inline");
+					$("#place_name").val("");
+					$("#place_name").attr("readonly", true);
+					$("#place_name").attr("placeholder", "주소 찾기 버튼을 눌러 주소를 검색해주세요.");
+				}
+				else
+				{
+					$("#juso").css("display", "none");
+					$("#place_name").val("");
+					$("#place_name").attr("readonly", false);
+					$("#place_name").attr("placeholder", "ex) 홍대 맛집");
 				}
 				
-				
-				$("#placeTr").html("<td><input type='text' id='place' name='place' class='form-control' placeholder='장소' required='required'></td>" + $("#placeTr").html());
 			});
-			*/
+			
 			
 			$(".placeSubmit").click(function()
 			{
-				// 테스트
-				//alert($("#place").val());
 				
-				var params = "place_name=" + $("#place_name").val() + "&detail_id=" + $(".placeSelect").val();			
+				if ($("#place_name").val() == "")
+				{
+					alert("장소를 입력한 후에 추가해주세요.");
+					return;
+				}
+				
+				var params = "place_name=" + $("#place_name").val() + "&detail_id=" + $("input:radio[name='place']:checked").val();
 				$.ajax(
 				{
 					type : "POST"
@@ -344,9 +355,27 @@
 				}
 			}
 		}
-		
-		
 
+</script>
+
+<!-- 주소 검색, 지도 표시 기능 구현 -->
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+
+    function getAddr()
+    {
+        new daum.Postcode(
+        {
+            oncomplete: function(data) 
+            {
+                var addr = data.address;
+                
+                // 받아온 주소 넣기 
+                document.getElementById("place_name").value = addr;
+                
+            }
+        }).open();
+    }
 </script>
 
 </head>
@@ -395,7 +424,7 @@
 										모먼트명 <sup style="color: red;">※</sup>
 									</span>
 									<input type="text" id="moment_name" name="moment_name" class="form-control"
-									placeholder="모먼트명" maxlength="30" required="required">
+									placeholder="ex) 놀자~" maxlength="30" required="required">
 									<span class="input-group-addon">30자 이내</span>
 								</div>
 							</td>
@@ -511,10 +540,13 @@
 								<input type="radio" id="fullPlace" name="place" value="2" class="placeSelect">
 								<label for="fullPlace" style="font-size: 14px;">자세히 등록!</label>
 							</td>
+							<td>
+								<button type="button" onclick="getAddr()" id="juso" style="display: none;">주소 찾기</button>
+							</td>
 						</tr>
 						<tr id="placeTr">
 							<td><input type="text" id="place_name" name="place_name" class="form-control"
-								 placeholder="장소" required="required"></td>
+								 placeholder="ex) 홍대 맛집" required="required"></td>
 							<td>
 								<button type="button" class="placeSubmit" id="place_submit">추가</button>
 								<button type="button" class="placeEdit" id="place_edit" style="display: none;">수정</button>

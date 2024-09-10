@@ -138,8 +138,11 @@ public interface IMomentDAO
 	// 투표 1위 값 확인하기
 	public String getVoteMax(@Param("vote_id") String vote_id);
 	
-	// 수정된적 있는지 확인
-	public int checkModifyComplete(@Param("vote_id") String vote_id);
+	// 투표 수정된적 있는지 확인
+	public int checkModifyVoteComplete(@Param("vote_id") String vote_id);
+
+	// 설문 수정된적 있는지 확인
+	public int checkModifySurveyComplete(@Param("survey_id") String survey_id);
 	
 	// 모먼트명 수정
 	public int modifyMomentName(@Param("survey_response_id") String survey_response_id, @Param("moment_id") String moment_id);
@@ -149,6 +152,9 @@ public interface IMomentDAO
 	
 	// 장소 수정
 	public int modifyPlaceName(@Param("survey_response_id") String survey_response_id, @Param("moment_id") String moment_id);
+	
+	// 장소 세부 단계 수정
+	public int modifyPlaceDetail(@Param("moment_id") String moment_id);
 	
 	// 최소 인원 수정
 	public int modifyMinParticipant(@Param("survey_response_id") String survey_response_id, @Param("moment_id") String moment_id);
@@ -164,5 +170,8 @@ public interface IMomentDAO
 
 	// 설문 완료 확인 컬럼 수정
 	public int modifyWhetherSurvey(@Param("survey_id") String survey_id);
+	
+	// 진행 중인 설문 투표 없는지 확인
+	public int checkMomentCompleteCount(@Param("moment_id") String moment_id);
 	
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.prj.IGalleryDAO">
+
+	<select id="galleryList" resultType="com.test.prj.GalleryDTO">
+		SELECT GL.ID AS GALLERY_ID, GL.MOMENT_ID AS MOMENT_ID, GL.PARTICIPANT_ID AS PARTICIPANT_ID
+			 , UI.NAME AS PARTICIPANT_NAME, GL.ROOT AS ROOT, GL.UPLOAD_DATE AS UPLOAD_DATE
+		FROM GALLERY GL LEFT JOIN MM_PARTICIPANT MT
+		     ON GL.PARTICIPANT_ID = MT.ID
+		     LEFT JOIN GR_MATCH GM
+		     ON MT.MEMBER_ID = GM.ID
+		     LEFT JOIN US_INFORMATION UI
+		     ON GM.USER_ID = UI.USER_ID
+		WHERE GL.MOMENT_ID = #{moment_id}
+	</select>
+
+</mapper>

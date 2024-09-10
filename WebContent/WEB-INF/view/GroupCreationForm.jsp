@@ -16,6 +16,7 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js">
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -72,10 +73,49 @@
 							<td>
 								<div class="input-group" role="group">
 									<span class="input-group-addon" id="basic-addon1">
-										그룹 번호 
+										그룹 매치 번호 
+									</span>
+									<input type="text" id="match_id" name="match_id" class="form-control"
+									placeholder="GM00" maxlength="30" required="required" readonly="readonly" value="${nextGMId }">
+									<span class="input-group-addon"></span>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<div class="input-group" role="group">
+									<span class="input-group-addon" id="basic-addon1">
+										그룹 매치 유형 번호 
+									</span>
+									<input type="text" id="type_id" name="type_id" class="form-control"
+									placeholder="GJ01" maxlength="30" required="required" readonly="readonly" value="GJ01">
+									<span class="input-group-addon"></span>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<div class="input-group" role="group">
+									<span class="input-group-addon" id="basic-addon1">
+										그룹 생성 번호 
 									</span>
 									<input type="text" id="id" name="id" class="form-control"
 									placeholder="groupId" maxlength="30" required="required" readonly="readonly" value="${nextGCId }">
+									<span class="input-group-addon"></span>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<div class="input-group" role="group">
+									<span class="input-group-addon" id="basic-addon1">
+										그룹 번호 
+									</span>
+									<input type="text" id="group_id" name="group_id" class="form-control"
+									 maxlength="30" required="required" readonly="readonly">
 									<span class="input-group-addon"></span>
 								</div>
 							</td>
@@ -88,21 +128,7 @@
 							<td>
 								<div class="input-group" role="group">
 									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
-										생성자 ID <sup style="color: red;">※</sup>
-									</span>
-									<input type="text" id="user_id" name="user_id" class="form-control"
-									placeholder="US00" maxlength="30" required="required">
-								</div>
-							</td>
-						</tr>
-						
-						
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
-										그룹명 <sup style="color: red;">※</sup>
+										그룹 명 <sup style="color: red;">※</sup>
 									</span>
 									<input type="text" id="name" name="name" class="form-control"
 									placeholder="ex) SIST" maxlength="30" required="required">
@@ -149,7 +175,9 @@
 						
 						<tr>
 							<td style="text-align: center;">
-								<button type="submit" class="btn btn-success">등록</button>
+							<c:if test="${count > 0} ">
+								<button type="submit" class="btn btn-success" disabled="disabled">등록</button>
+							</c:if>
 								<button type="reset" class="btn btn-default">취소</button>
 								<br>
 								
@@ -157,6 +185,9 @@
 								<span style="font-size: small; color: red; display: none;">
 									필수 입력 사항을 모두 입력해야 합니다.
 								</span>
+								<br><br>
+						
+								<span id="error" style="color: red; font-weight: bold; display: none;"></span>
 							</td>
 						</tr>
 					</table>

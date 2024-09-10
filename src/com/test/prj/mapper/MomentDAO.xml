@@ -129,7 +129,7 @@
 	<select id="momentList" resultType="com.test.prj.MomentDTO">
 		SELECT MOMENT_ID, MOMENT_NAME, GROUP_ID, GROUP_NAME
          , PHASE_ID, PHASE
-         , DATE_ID, DATE_NAME, PLACE_ID, PLACE_NAME
+         , DATE_ID, DATE_NAME, PLACE_ID, PLACE_NAME, DETAIL_ID
          , PARTI_NUM, MIN_PARTICIPANT, MAX_PARTICIPANT
          , CREATION_DATE, PLAN_END_DATE, NOTE, END_TIME
 		FROM MMVIEW
@@ -227,6 +227,7 @@
 		FROM MM_SURVEY
 		WHERE MOMENT_ID = #{moment_id}
 		  AND TYPE_ID = #{type_id}
+		  AND WHETHER ='N'
 	</select>
 	
 	<select id="countSurveyNum" resultType="java.lang.Integer">
@@ -295,6 +296,7 @@
 		FROM MM_VOTE
 		WHERE SURVEY_ID = #{survey_id}
 		  AND TYPE_ID = #{type_id}
+		  <!-- AND WHETHER ='N' --> <!-- 추후 검토 --> 
 	</select>
 	
 	<select id="countVoteNum" resultType="java.lang.Integer">
@@ -334,13 +336,13 @@
 		  AND MV.TYPE_ID = #{type_id}
 	</select>
 	
-	<select id="getVoteMax" resultType="java.lang.String">	<!-- 동률 처리 좀 더 고민.. -->
+	<select id="getVoteMax" resultType="java.lang.String">
 		SELECT T.VOTE_SELECT_ID
 		FROM 
 	    (
 	    SELECT VOTE_SELECT_ID, COUNT(VOTE_SELECT_ID) AS COUNT
 	    FROM MM_VOTE_RESPONSE
-	    WHERE VOTE_ID = 'MV01'
+	    WHERE VOTE_ID = #{vote_id}
 	    GROUP BY VOTE_SELECT_ID
 	    ) T
 		WHERE T.COUNT = (SELECT MAX(COUNT(VOTE_SELECT_ID))
@@ -399,6 +401,14 @@
 			        WHERE ID = #{moment_id})
 	</update>
 	
+	<update id="modifyPlaceDetail">
+		UPDATE MM_PLACE
+		SET DETAIL_ID = 'ML02'
+		WHERE ID = (SELECT PLACE_ID
+		            FROM MOMENT
+		            WHERE ID = #{moment_id})
+	</update>
+	
 	<update id="modifyMinParticipant">
 		UPDATE MOMENT
 		SET MIN_PARTICIPANT = (SELECT SR.RESPONSE
@@ -426,7 +436,7 @@
 		WHERE ID = #{moment_id}
 	</update>
 	
-	<select id="checkModifyComplete" resultType="java.lang.Integer">
+	<select id="checkModifyVoteComplete" resultType="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
 		FROM MM_VOTE
 		WHERE ID = #{vote_id}
@@ -445,6 +455,20 @@
 		WHERE ID = #{survey_id}
 	</update>
 	
+	<select id="checkModifySurveyComplete" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_SURVEY
+		WHERE ID = #{survey_id}
+		  AND WHETHER = 'N'
+	</select>
 	
+	<select id="checkMomentCompleteCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_SURVEY MS LEFT JOIN MM_VOTE MV
+		     ON MS.ID = MV.SURVEY_ID
+		WHERE MS.MOMENT_ID = #{moment_id}
+		  AND MS.WHETHER ='N'
+		   OR MV.WHETHER ='N'
+	</select>
 	
 </mapper>
