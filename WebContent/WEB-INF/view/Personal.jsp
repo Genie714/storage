@@ -112,122 +112,7 @@ if (user_id == null && admin == null) {
 		</div>
 		<!-- End Search Bar -->
 		<c:import url="/notification.action"></c:import>
-		<%--
-		<nav class="header-nav ms-auto">
-			<ul class="d-flex align-items-center">
-				<li class="nav-item d-block d-lg-none"><a
-					class="nav-link nav-icon search-bar-toggle " href="#"> <i
-						class="bi bi-search"></i>
-				</a></li>
-				<!-- End Search Icon-->
-				<li class="nav-item dropdown"><a class="nav-link nav-icon"
-					href="#" data-bs-toggle="dropdown"> <i class="bi bi-bell"></i>
-						<span class="badge bg-primary badge-number">4</span>
-				</a> <!-- End Notification Icon -->
-					<ul
-						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-						<li class="dropdown-header">You have 4 new notifications <a
-							href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View
-									all</span></a>
-						</li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-						<li class="notification-item"><i
-							class="bi bi-exclamation-circle text-warning"></i>
-							<div>
-								<h4>Lorem Ipsum</h4>
-								<p>Quae dolorem earum veritatis oditseno</p>
-								<p>30 min. ago</p>
-							</div></li>
-
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="notification-item"><i
-							class="bi bi-x-circle text-danger"></i>
-							<div>
-								<h4>Atque rerum nesciunt</h4>
-								<p>Quae dolorem earum veritatis oditseno</p>
-								<p>1 hr. ago</p>
-							</div></li>
-
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="notification-item"><i
-							class="bi bi-check-circle text-success"></i>
-							<div>
-								<h4>Sit rerum fuga</h4>
-								<p>Quae dolorem earum veritatis oditseno</p>
-								<p>2 hrs. ago</p>
-							</div></li>
-
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="notification-item"><i
-							class="bi bi-info-circle text-primary"></i>
-							<div>
-								<h4>Dicta reprehenderit</h4>
-								<p>Quae dolorem earum veritatis oditseno</p>
-								<p>4 hrs. ago</p>
-							</div></li>
-
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-						<li class="dropdown-footer"><a href="#">Show all
-								notifications</a></li>
-
-					</ul> <!-- End Notification Dropdown Items --></li>
-				<!-- End Notification Nav -->
-				<li class="nav-item dropdown pe-3"><a
-					class="nav-link nav-profile d-flex align-items-center pe-0"
-					href="#" data-bs-toggle="dropdown"> <img
-						src="assets/img/profile-img.png" alt="Profile"
-						class="rounded-circle"> <span
-						class="d-none d-md-block dropdown-toggle ps-2">${userinfo.user_name}</span>
-				</a> <!-- End Profile Iamge Icon -->
-
-					<ul
-						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-						<li class="dropdown-header">
-							<h6>${userinfo.user_name}
-							</h6>
-						</li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-person"></i> <span>My
-									Profile</span>
-						</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li><a class="dropdown-item d-flex align-items-center"
-							href="users-profile.html"> <i class="bi bi-gear"></i> <span>Account
-									Settings</span>
-						</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-						<li><a class="dropdown-item d-flex align-items-center"
-							href="logout.action"> <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
-						</a></li>
-
-					</ul> <!-- End Profile Dropdown Items --></li>
-				<!-- End Profile Nav -->
-
-			</ul>
-		</nav>
-		 --%>
+		
 		<!-- End Icons Navigation -->
 
 	</header>
@@ -364,7 +249,7 @@ if (user_id == null && admin == null) {
 										</div>
 										<div class="ps-3">
 											<h6>
-												<a href="momentinfo.action?moment_id=${recentMoment.moment_id }&group_id=${recentMoment.group_id}" style="color: black;">${recentMoment.moment_name }</a>
+												<a href="momentinfo.action?moment_id=${recentMoment.moment_id }&group_id=${recentMoment.group_id}" style="color: black;font-size: clamp(12px, 5vw, 22px);">${recentMoment.moment_name }</a>
 											</h6>
 											<span class="text-success small pt-1 fw-bold">${recentMoment.date_name }</span><br>
 											<span class="text-muted small pt-2 ps-1">${recentMoment.group_name }</span>
@@ -391,7 +276,7 @@ if (user_id == null && admin == null) {
 										</div>
 										<div class="ps-3">
 											<h6>
-												<a href="momentinfo.action?moment_id=${nextMoment.moment_id }&group_id=${nextMoment.group_id}" style="color: black;">${nextMoment.moment_name }</a>
+												<a href="momentinfo.action?moment_id=${nextMoment.moment_id }&group_id=${nextMoment.group_id}" style="color: black;font-size: clamp(12px, 5vw, 22px);">${nextMoment.moment_name }</a>
 											</h6>
 											<span class="text-success small pt-1 fw-bold">${nextMoment.date_name }</span><br>
 											<span class="text-muted small pt-2 ps-1">${nextMoment.group_name }</span>
@@ -461,7 +346,7 @@ if (user_id == null && admin == null) {
 													</div>
 													<div class="ps-3">
 														<h6>
-															<a href="momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" style="color: black;">${item.moment_name }</a>
+															<a href="momentbuild.action?moment_id=${item.moment_id }&group_id=${item.group_id}" style="color: black;font-size: clamp(12px, 5vw, 22px);">${item.moment_name }</a>
 														</h6>
 														<span class="text-success small pt-1 fw-bold">${item.date_name }</span><br>
 														<span class="text-muted small pt-2 ps-1">${item.group_name }</span>
@@ -596,20 +481,10 @@ if (user_id == null && admin == null) {
 							<div class="activity">
 								<c:forEach var="item" items="${summaryMoment }">
 								<div class="activity-item d-flex">
-									<div class="activite-label">${item.date_name }</div>
+									<div class="activite-label" style="font-size: clamp(5px, 5vw, 10px);">${item.date_name }</div>
 									<i
 										class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-									<div class="activity-content">
-										${item.group_name } 
-										<a href="momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="fw-bold text-dark">${item.moment_name }</a>
-										${item.place_name }
-									</div>
-								</div>
-								<div class="activity-item d-flex">
-									<div class="activite-label">${item.date_name }</div>
-									<i
-										class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-									<div class="activity-content">
+									<div class="activity-content" style="font-size: clamp(5px, 5vw, 10px);">
 										${item.group_name } 
 										<a href="momentinfo.action?moment_id=${item.moment_id }&group_id=${item.group_id}" class="fw-bold text-dark">${item.moment_name }</a>
 										${item.place_name }

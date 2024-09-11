@@ -62,4 +62,19 @@ public class PersonalController
 		
 		return result;
 	}
+	
+	@RequestMapping(value="personalcalendar.action", method = RequestMethod.GET )
+	public String PersonalCalendarLoad(Model model,HttpSession session)
+	{
+		
+		IPersonalDAO dao = sqlSession.getMapper(IPersonalDAO.class);
+		String user_id = (String)session.getAttribute("user_id");
+		
+		// 모먼트 리스트 가져오기
+		ArrayList<MomentDTO> momentList = dao.findMoment(user_id);
+		
+		model.addAttribute("momentList", momentList);
+		return "/WEB-INF/view/PersonalCalendar.jsp";
+	}
+	
 }

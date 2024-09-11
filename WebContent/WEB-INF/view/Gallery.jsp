@@ -9,48 +9,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Group.jsp</title>
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<style type="text/css">
-	*
-	{
-		margin: 0;
-		padding: 0;
-	}
-	
-	#images
-	{
-		width: 650px;
-		margin: 0 auto;
-		overflow: hidden;
-		padding-top: 10px;
-	}
-	
-	div > article
-	{
-		float: left;
-		margin-left: 10px;
-		margin-bottom: 10px;
-	}
-	
-	img
-	{
-		display: block;
-		width: 350px;
-		height: 250px;
-	}
-	
+<title>Gallery.jsp</title>
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-</style>
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=cp %>/js/util.js"></script>
+<script type="text/javascript" src="<%=cp %>/js/jquery-ui.js"></script>
 <script type="text/javascript">
-
+	
+	$(document).ready(function()
+	{
+		$("#btnAdd").click(function()
+		{
+			if ($("#countJoin").val() == 0)
+			{
+				alert("모먼트에 참여하지 않은 그룹원은 게시글 작성이 불가능합니다.");
+				return false;
+			}
+		});
+	});
+	
 	function galleryLink(gallery_id)
 	{
-		location.href = "gallerypage.action?gallery_id=?" + gallery_id;
+		var group_id = document.getElementById("group_id").value;
+		var moment_id = document.getElementById("moment_id").value;
+		location.href = "gallerypage.action?group_id=" + group_id + "&gallery_id=" + gallery_id
+						+ "&moment_id=" + moment_id;
 	}
 
 </script>
@@ -58,73 +65,85 @@
 </head>
 <body>
 
-<div class="panel title">
-	<h1>갤러리</h1>
-</div>
+<header>
+<c:import url="/header.action"></c:import>
+</header>
+<aside id="sidebar" class="sidebar">
+<c:import url="/aside.action"></c:import>
+</aside>
 
-<!-- 메인 메뉴 영역 -->
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Home</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active">
-					<a href="group.action">
-						갤러리 <span class="sr-only">(current)</span>
-					</a>
-				</li>
-			</ul>
-		</div><!-- .collapse .navbar-collapse -->
-		
-	</div><!-- .container-fluid -->
-	
-</nav>
-
-<div class="container">
-	<div class="panel-group">
-		<div class="panel panel-default">
-		
-			<!-- <div class="panel-heading row"> -->
-			<div class="panel-heading" style="height: 60px;">
-				<span style="font-size: 17pt; font-weight: bold;" class="col-md-3">
-					갤러리
-				</span>
-				<span class="col-md-9">
-					<a href="galleryform.action?moment_id=<%=request.getParameter("moment_id") %>
-					&group_id=<%=request.getParameter("group_id") %>" role="button" class="btn btn-success btn-xs" id="btnAdd"
-					style="vertical-align: bottom;">게시글 업로드</a>
-				</span>
+<main id="main" class="main">
+	<div class="pagetitle">
+		<div class="row">
+			<div class="col-3">
+			<h1>${momentName } - 갤러리</h1>
 			</div>
-			
-			<div class="panel-body">
-				전체 게시글 수
-				<span class="badge">${galleryCount }</span>
+			<div class="col-9" style="display: flex; justify-content: flex-end;">
+			<a href="galleryinsertform.action?moment_id=<%=request.getParameter("moment_id") %>
+									&group_id=<%=request.getParameter("group_id") %>
+									" role="button" class="btn btn-success btn-xs" id="btnAdd"
+									style="">게시글 업로드</a>
 			</div>
-		     
-		    <div class="panel-body">
-		    	<div class="images">
-		    	<c:choose>
-					<c:when test="${galleryList != '[]' }">
-						<c:forEach var="article" items="${galleryList }">
-							<article><img onclick="galleryLink('${article.gallery_id}')" src="${article.root }" class="img"></article>
-						</c:forEach>
-					</c:when>
-					
-					<c:when test="${galleryList == '[]' }">
-				    	<div style="text-align: center;">
-				    		<span style="font-weight: bold; font-size: x-large;">아직 게시글이 없습니다.</span>
-				    	</div>
-				    </c:when>
-	        	</c:choose>
-		    	</div>	
-		    </div>
-		    
-		    
 		</div>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="main.action">Main</a></li>
+				<li class="breadcrumb-item"><a href="group.action?group_id=<%=request.getParameter("group_id") %>">그룹</a></li>
+				<li class="breadcrumb-item"><a href="momentinfo.action?moment_id=<%=request.getParameter("moment_id") %>&group_id=<%=request.getParameter("group_id") %>">모먼트</a></li>
+				<li class="breadcrumb-item active">갤러리</li>
+			</ol>
+		</nav>
+		<div class="pagesubtitle">전체 게시글 수<span class="badge bg-primary badge-number" style="color: white; margin-left: 5px;">${galleryCount }</span></div>
+		
+		
 	</div>
-</div>
+
+	<section class="section dashboard">
+		<div class="row col-lg-12 mb-3">
+	    	<c:choose>
+			<c:when test="${galleryList != '[]' }">
+				<c:forEach var="article" items="${galleryList }">
+				<div class="card col-lg-3 mb-3">
+					<div class="card-body">
+						<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+	                		<div class="carousel-inner">
+	                  			<div class="carousel-item active">
+									<img onclick="galleryLink('${article.gallery_id}')" src="<%=cp %>${article.root}${article.file_settingname}" class="d-block w-100">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</c:forEach>
+				</c:when>
+			
+				<c:when test="${galleryList == '[]' }">
+			    	<div style="text-align: center;">
+			    		<span style="font-weight: bold; font-size: x-large;">아직 게시글이 없습니다.</span>
+			    	</div>
+			    </c:when>
+        	</c:choose>
+        	<input type="hidden" id="group_id" value="<%=request.getParameter("group_id") %>">
+        	<input type="hidden" id="moment_id" name="moment_id" value="<%=request.getParameter("moment_id") %>">
+        	<input type="hidden" id="countJoin" value="${countJoin }">
+
+		</div>
+	</section>
+</main>
+
+
+	<!-- Vendor JS Files -->
+	<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/vendor/chart.js/chart.umd.js"></script>
+	<script src="assets/vendor/echarts/echarts.min.js"></script>
+	<script src="assets/vendor/quill/quill.js"></script>
+	<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
 
 </body>
 </html>

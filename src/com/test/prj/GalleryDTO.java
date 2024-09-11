@@ -17,6 +17,79 @@ public class GalleryDTO
 	private String root;
 	private String upload_date;
 	
+	private String file_realname, file_settingname;
+
+	private String comment_id, contents;
+	private String write_date;
+	
+	private String writer_id, writer_name;
+	
+	private String my_count;
+	
+	public String getMy_count()
+	{
+		return my_count;
+	}
+	public void setMy_count(String my_count)
+	{
+		this.my_count = my_count;
+	}
+	public String getWriter_id()
+	{
+		return writer_id;
+	}
+	public void setWriter_id(String writer_id)
+	{
+		this.writer_id = writer_id;
+	}
+	public String getWriter_name()
+	{
+		return writer_name;
+	}
+	public void setWriter_name(String writer_name)
+	{
+		this.writer_name = writer_name;
+	}
+	public String getComment_id()
+	{
+		return comment_id;
+	}
+	public void setComment_id(String comment_id)
+	{
+		this.comment_id = comment_id;
+	}
+	public String getContents()
+	{
+		return contents;
+	}
+	public void setContents(String contents)
+	{
+		this.contents = contents;
+	}
+	public String getWrite_date()
+	{
+		return write_date;
+	}
+	public void setWrite_date(String write_date)
+	{
+		this.write_date = write_date;
+	}
+	public String getFile_realname()
+	{
+		return file_realname;
+	}
+	public void setFile_realname(String file_realname)
+	{
+		this.file_realname = file_realname;
+	}
+	public String getFile_settingname()
+	{
+		return file_settingname;
+	}
+	public void setFile_settingname(String file_settingname)
+	{
+		this.file_settingname = file_settingname;
+	}
 	public String getUser_id()
 	{
 		return user_id;

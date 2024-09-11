@@ -64,7 +64,8 @@ if(admin_id != null)
 			</form>
 		</div>
 		<!-- End Search Bar -->
-		<nav class="header-nav ms-auto">
+		<c:import url="/notification.action"></c:import>
+		<%-- <nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<li class="nav-item d-block d-lg-none"><a
 					class="nav-link nav-icon search-bar-toggle " href="#"> <i
@@ -178,7 +179,7 @@ if(admin_id != null)
 
 			</ul>
 		</nav>
-		<!-- End Icons Navigation -->
+ --%>		<!-- End Icons Navigation -->
 
 	</header>
 	<!-- End Header -->

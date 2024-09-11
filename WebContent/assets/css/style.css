@@ -1240,21 +1240,24 @@ h6 {
  
 }
 .ps-3 h6 a{
- 	display: inline-block;
- 	 max-width: 100px; /* 원하는 최대 너비 설정 */
+	
+	font-size: clamp(12px, 5vw, 28px);
+ 	/* display: inline-block;
+ 	 max-width: 100px; 원하는 최대 너비 설정
   	white-space: nowrap;
   	overflow: hidden;
-  	text-overflow: ellipsis;
+  	text-overflow: ellipsis; */
  }
  
  
 .complaint-content
 {
- 	display: inline-block !important; 
- 	 max-width: 170px !important; /* 원하는 최대 너비 설정 */
+	font-size: clamp(12px, 5vw, 28px);
+ 	/* display: inline-block !important; 
+ 	 max-width: 170px !important; 원하는 최대 너비 설정
   	white-space: nowrap !important;
   	overflow: hidden !important;
-  	text-overflow: ellipsis !important;
+  	text-overflow: ellipsis !important; */
  }
  
  .cancelNoti

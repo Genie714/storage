@@ -41,17 +41,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MomentOperForm.jsp</title>
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="<%=cp %>/js/util.js"></script>
 <script type="text/javascript" src="<%=cp %>/js/jquery-ui.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4833730b76b007bdcf9d4907fd005673&libraries=services"></script>
 
 <script type="text/javascript">
 
@@ -173,7 +191,7 @@
 									else
 										$("#doublePlan").css("display", "none");
 									
-									$("#date_submit").attr("disabled", true);
+									$("#date_submit").css("display", "none");
 									$("#date_edit").css("display", "inline");
 								});
 
@@ -190,7 +208,7 @@
 			
 			$("#date_edit").click(function()
 			{
-				$("#date_submit").attr("disabled", false);
+				$("#date_submit").css("display", "inline");
 				$("#date_edit").css("display", "none");
 				$("#date_id").val("");
 			});
@@ -246,7 +264,7 @@
 							$("#place_name").val(place_name);
 							
 							$("#place_name").attr("readonly", true);
-							$("#place_submit").attr("disabled", true);
+							$("#place_submit").css("display", "none");
 							$("#place_edit").css("display", "inline");
 							
 						});
@@ -263,7 +281,7 @@
 			$("#place_edit").click(function()
 			{
 				$("#place_name").attr("readonly", false);
-				$("#place_submit").attr("disabled", false);
+				$("#place_submit").css("display", "inline");
 				$("#place_edit").css("display", "none");
 				$("#place_id").val("");
 				
@@ -357,276 +375,336 @@
 		}
 
 </script>
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <!-- 주소 검색, 지도 표시 기능 구현 -->
-<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript">
-
+<script type="text/javascript">	
     function getAddr()
     {
         new daum.Postcode(
         {
             oncomplete: function(data) 
             {
-                var addr = data.address;
+                addr = data.address;
                 
                 // 받아온 주소 넣기 
                 document.getElementById("place_name").value = addr;
                 
             }
         }).open();
+        
+       
     }
+    
+    $(function() {
+    	
+    	container = document.getElementById("map");
+		mapCenter = new kakao.maps.LatLng(37.5565389, 126.9195136);
+		options = {
+			center : mapCenter,
+			level : 3,
+		};
+		map = new kakao.maps.Map(container, options);
+    	
+		$("#place_submit").click(function() {
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch( addr, function(result, status) {
+
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        var infowindow = new kakao.maps.InfoWindow({
+			            content: '<div style="width:150px;text-align:center;padding:6px 0;">약속장소</div>'
+			        });
+			        infowindow.open(map, marker);
+
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } 
+			});    
+			
+		});
+	});
 </script>
 
 </head>
 <body>
-
+<header>
+<c:import url="/header.action"></c:import>
+</header>
+<aside id="sidebar" class="sidebar">
+<c:import url="/aside.action"></c:import>
+</aside>
 <div class="panel title">
 	<h1>모먼트 생성</h1>
 </div>
 
 <!-- 메인 메뉴 영역 -->
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Home</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active">
-					<a href="group.action">
-						모먼트 <span class="sr-only">(current)</span>
-					</a>
-				</li>
-			</ul>
-		</div><!-- .collapse .navbar-collapse -->
-		
-	</div><!-- .container-fluid -->
-</nav>
-
-<div class="container">
-	<div class="panel-group">
-		<div class="panel panel-default">
-		
-			<div class="panel-heading" style="height: 60px;">
-				<span style="font-size: 17pt; font-weight: bold;" class="col-md-3">
-					모먼트 데이터 입력
-				</span>
-			</div>
+<main id="main" class="main">
+	<div class="pagetitle">
+		<h1>모먼트 오퍼 생성</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="main.action">Main</a></li>
+				<li class="breadcrumb-item"><a href="group.action?group_id=<%=request.getParameter("group_id") %>">그룹</a></li>
+				<li class="breadcrumb-item active">모먼트 오퍼 생성</li>
+			</ol>
+		</nav>
+	</div>
+	
+	<section class="section dashboard">
+	<div class="row">
+		<!-- main columns -->
+		<div class="col-lg-8">
 			
-			<div class="panel-body">
-				<form action="momentinsert.action?group_id=<%=request.getParameter("group_id") %>" method="post" id="myForm">
-					<table class="table">
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
-										모먼트명 <sup style="color: red;">※</sup>
-									</span>
-									<input type="text" id="moment_name" name="moment_name" class="form-control"
-									placeholder="ex) 놀자~" maxlength="30" required="required">
-									<span class="input-group-addon">30자 이내</span>
-								</div>
-							</td>
-							<td></td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 100px;">
-										년도 <sup style="color: red;">※</sup>
-									</span>
-									<select id="year" name="year" class="form-control" onchange="lastday()" required="required">
-										<!--  
-										<option value="1">2024</option>
-										<option value="2">2025</option>
-										<option value="3">2026</option>
-										 -->
-										<%
-										for (int i : yearArr)
-										{
-										%>
-										<option value="<%=i %>">
-										<%=i %>
-										</option>
-										<%
-										}
-										%>
-									</select>
-									<span class="input-group-addon" id="basic-addon3" style="width: 100px;">
-										월 <sup style="color: red;">※</sup>
-									</span>
-									<select id="month" name="month" class="form-control" onchange="lastday()" required="required"> 
-										<%
-										for (int i : monthArr)
-										{
-											if (i == month)
+			<!-- 카드 시작 -->
+			<div class="card text-center">
+				<div class="card-body">
+					<div class="card-title">
+							<h5 class="card-title">
+								모먼트 데이터 입력
+							</h5>
+					</div>	
+					<div>
+						<form action="momentinsert.action?group_id=<%=request.getParameter("group_id") %>" method="post" id="myForm" class="row g-3">
+							
+							<div class="col-md-12 input-group mb-3">
+								<span class="input-group-text">모먼트명 <sup style="color: red;">※</sup></span>
+								<input type="text" id="moment_name" name="moment_name" class="form-control"
+								placeholder="ex) 놀자~" maxlength="30" required="required">
+								<span class="input-group-text">30자 이내</span>
+							</div>
+					
+							<div class="col-md-12 row">
+								<div class="col-md-3">
+									<div class="input-group">
+										<select id="year" name="year" class="form-select" onchange="lastday()" required="required">
+									
+											<!--  
+											<option value="1">2024</option>
+											<option value="2">2025</option>
+											<option value="3">2026</option>
+											 -->
+											<%
+											for (int i : yearArr)
 											{
-										%>
-										<option value="<%=i %>" selected="selected">
-										<%=i %>
-										</option>
-										<%
+											%>
+											<option value="<%=i %>">
+											<%=i %>
+											</option>
+											<%
 											}
-											else
-											{
-										%>
-										<option value="<%=i %>">
-										<%=i %>
-										</option>
-										<%
-											}
-										}
-										%>
-									</select>
-									<span class="input-group-addon" id="basic-addon3" style="width: 100px;">
-										일
-									</span>
-									<select id="day" name="day" class="form-control"> 
-									</select>
-									<span class="input-group-addon" id="basic-addon3" style="width: 100px;">
-										시간
-									</span>
-									<select id="time" name="time" class="form-control">
-										<option value="-1" selected="selected">선택 없음</option>
-										<%
-										for (String i : timeArr)
-										{
-										%>
-										<option value="<%=i %>">
-										<%=i %>
-										</option>
-										<%
-										}
-										%>
-									</select>
+											%>
+										</select>
+										<span class="input-group-text">
+											년<sup style="color: red;">※</sup>
+										</span>
+									</div>
 								</div>
-							</td>
-							<td>
-								<input type="hidden" id="date_id" name="date_id">
-								<button type="button" class="dateSubmit" id="date_submit">추가</button>
-								<button type="button" class="dateEdit" id="date_edit" style="display: none;">수정</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
+								<div class="col-md-5 row">
+									<div class="col-md-6">
+										<div class="input-group">
+										<select id="month" name="month" class="form-select" onchange="lastday()" required="required"> 
+											<%
+											for (int i : monthArr)
+											{
+												if (i == month)
+												{
+											%>
+											<option value="<%=i %>" selected="selected">
+											<%=i %>
+											</option>
+											<%
+												}
+												else
+												{
+											%>
+											<option value="<%=i %>">
+											<%=i %>
+											</option>
+											<%
+												}
+											}
+											%>
+										</select>
+										<span class="input-group-text">
+											월 <sup style="color: red;">※</sup>
+										</span>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="input-group">
+										<select id="day" name="day" class="form-select"> 
+										</select>
+										<span class="input-group-text">
+											일
+										</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="input-group">
+										<span class="input-group-text" >
+											시간
+										</span>
+										<select id="time" name="time" class="form-select">
+											<option value="-1" selected="selected">선택 없음</option>
+											<%
+											for (String i : timeArr)
+											{
+											%>
+											<option value="<%=i %>">
+											<%=i %>
+											</option>
+											<%
+											}
+											%>
+										</select>
+										<input type="hidden" id="date_id" name="date_id" class="form-select">
+										<div style="margin-left: 10px;">
+											<button type="button" class="dateSubmit btn btn-primary" id="date_submit">추가</button>
+											<button type="button" class="dateEdit btn btn-warning" id="date_edit" style="display: none;">수정</button>
+										</div>
+									</div>
+								</div>
+								
+										
+								
+							</div>
+							<div class="col-12">
 								<span id="doublePlan" style="color: red; font-weight: bold; display: none;">
-									해당 모먼트의 일시에 이미 일정이 존재합니다.<br>
-									신중하게 참여를 결정해주세요.
+									해당 모먼트의 일시에 이미 일정이 존재합니다. 신중하게 참여를 결정해주세요.
 								</span>
-							</td>
-						</tr>
-						
-						<tr style="height: 10px;">
-						</tr>
-						
-						<tr>
-							<td>
+							</div>
+					
+							<div class="col-12">						
 								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2">
+									<div class="form-check" style="padding-left: 0px;">
+									<input type="radio" id="abstractPlace" name="place" value="1" checked="checked" class="placeSelect form-check-input"
+									style="margin-left: 0px;">
+									<label for="abstractPlace" class="form-check-label"
+									style="margin-left: 5px;">대충 등록!</label>
+									</div>
+									<div class="form-check" style="padding-left: 10px;">
+									<input type="radio" id="fullPlace" name="place" value="2" class="placeSelect form-check-input"
+									style="margin-left: 5px;">
+									<label for="fullPlace" class="form-check-label"
+									style="margin-left: 10px;">자세히 등록!</label>
+									</div>
+								</div>
+								
+								
+								<div class="input-group" role="group" id="placeTr">
+									<span class="input-group-text">
 										장소 <sup style="color: red;">※</sup>
 									</span>
+									<input type="text" id="place_name" name="place_name" class="form-control"
+										 placeholder="ex) 홍대 맛집" required="required">
+									<div style="margin-left: 10px;">
+										<button type="button" class="placeSubmit btn btn-primary" id="place_submit">추가</button>
+										<button type="button" class="placeEdit btn btn-warning" id="place_edit" style="display: none;">수정</button>
+										<button type="button" class="btn btn-primary" onclick="getAddr()" id="juso" style="display: none;">주소 찾기</button>
+									</div>
+									<input type="hidden" id="place_id" name="place_id">
 								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" id="abstractPlace" name="place" value="1" checked="checked" class="placeSelect">
-								<label for="abstractPlace" style="font-size: 14px;">대충 등록!</label>
-								<input type="radio" id="fullPlace" name="place" value="2" class="placeSelect">
-								<label for="fullPlace" style="font-size: 14px;">자세히 등록!</label>
-							</td>
-							<td>
-								<button type="button" onclick="getAddr()" id="juso" style="display: none;">주소 찾기</button>
-							</td>
-						</tr>
-						<tr id="placeTr">
-							<td><input type="text" id="place_name" name="place_name" class="form-control"
-								 placeholder="ex) 홍대 맛집" required="required"></td>
-							<td>
-								<button type="button" class="placeSubmit" id="place_submit">추가</button>
-								<button type="button" class="placeEdit" id="place_edit" style="display: none;">수정</button>
-							</td>
-							<td><input type="hidden" id="place_id" name="place_id"></td>
-						</tr>
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
+							</div>
+							
+							<div class="col-12">
+								<div class="input-group mb-3" role="group">
+									<span class="input-group-text">
 										최소 인원 <sup style="color: red;">※</sup>
 									</span>
 									<input type="text" id="min_participant" name="min_participant" class="form-control"
 									placeholder="ex) 2" maxlength="30" required="required">
-									<span class="input-group-addon">최소 2명</span>
+									<span class="input-group-text">최소 2명</span>
 								</div>
-							</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>
-								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
+			
+								<div class="input-group mb-3" role="group">
+									<span class="input-group-text">
 										최대 인원
 									</span>
 									<input type="text" id="max_participant" name="max_participant" class="form-control"
 									placeholder="ex) 5" maxlength="30">
-									<span class="input-group-addon">최대 ${countMember }명</span>
+									<span class="input-group-text">최대 ${countMember }명</span>
 								</div>
-							</td>
-							<td>
-							<input type="hidden" value="${countMember }" id="countMember">
-							</td>
-						</tr>
-						
-						<tr>
-							<td>
+							</div>
+							
+							<div class="col-12">
 								<div class="input-group" role="group">
-									<span class="input-group-addon" id="basic-addon2" style="width: 100px;">
+									<span class="input-group-text" id="basic-addon2">
 										참고사항
 									</span>
 									<textarea id="note" name="note" class="form-control" cols="30" rows="10"
 									placeholder="ex) 노트북 챙겨와!" maxlength="200"></textarea>
-									<span class="input-group-addon">200자 이내</span>
-								</div>
-							</td>
-							<td></td>
-						</tr>
-						
-						<tr>
-							<td>
-								<span style="font-size: small;">※은 필수입력 사항입니다.</span>
-							</td>
-							<td></td>
-						</tr>
-						
-						<tr>
-							<td style="text-align: center;">
-								<button type="submit" class="btn btn-success">등록</button>
-								<button type="reset" class="btn btn-default">취소</button>
-								<br>
-								
-								<span style="font-size: small; color: red; display: none;" id="error">
-									필수입력 사항을 모두 입력해야 합니다.
-								</span>
-							</td>
-							<td>
-								<input type="hidden" id="group_id" value="<%=request.getParameter("group_id") %>">
-							</td>
-						</tr>
-					</table>
-				</form>
+									<span class="input-group-text">200자 이내</span>
+								</div>	
+
+								<span style="font-size: small; color: red;">※은 필수입력 사항입니다.</span>
+							</div>
+							
+							
+							<div class="col-12">
+							<button type="submit" class="btn btn-primary">등록</button>
+							<button type="reset" class="btn btn-success">취소</button>
+							<br>
+							
+							<span style="font-size: small; color: red; display: none;" id="error">
+								필수입력 사항을 모두 입력해야 합니다.
+							</span>
+							</div>
+							<div class="col-12">
+							<input type="hidden" value="${countMember }" id="countMember">
+							<input type="hidden" id="group_id" value="<%=request.getParameter("group_id") %>">
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
+		</div>
+		<!-- ENd main columns -->
 		
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title">나의 일정 </h5>
+					<c:import url="/personalcalendar.action"></c:import>
+				</div> 
+			</div>
+			
+			<div class="card">
+				<div class="card-body pb-0">
+					<h5 class="card-title">
+						Place <span>| Map</span>
+					</h5>
+					<div id="map" style="min-height: 400px;" class="map"></div>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
+	</section>
+</main>
 
 
-
+<!-- Vendor JS Files -->
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/vendor/quill/quill.js"></script>
+	<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+	<script src="assets/vendor/php-email-form/validate.js"></script>
+	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+	<!-- Template Main JS File -->
+	<script src="assets/js/main.js"></script>
 
 </body>
 </html>
